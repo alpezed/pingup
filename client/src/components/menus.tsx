@@ -1,3 +1,4 @@
+import UserButton from "@/components/user-button";
 import { Link } from "@tanstack/react-router";
 
 export default function Menus() {
@@ -7,11 +8,9 @@ export default function Menus() {
 				<img className="w-26 ml-7 my-2 cursor-pointer" src="/assets/logo.svg" />
 				<hr className="border-gray-300 mb-8" />
 				<div className="px-6 text-gray-600 space-y-1 font-medium">
-					<a
+					<Link
 						className="px-3.5 py-2 flex items-center gap-3 rounded-xl bg-indigo-50 text-indigo-700"
-						href="/"
-						data-discover="true"
-						aria-current="page"
+						to="/"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -30,11 +29,10 @@ export default function Menus() {
 							<path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
 						</svg>
 						Feed
-					</a>
-					<a
+					</Link>
+					<Link
 						className="px-3.5 py-2 flex items-center gap-3 rounded-xl hover:bg-gray-50"
-						href="/messages"
-						data-discover="true"
+						to="/messages"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -52,11 +50,10 @@ export default function Menus() {
 							<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
 						</svg>
 						Messages
-					</a>
-					<a
+					</Link>
+					<Link
 						className="px-3.5 py-2 flex items-center gap-3 rounded-xl hover:bg-gray-50"
-						href="/connections"
-						data-discover="true"
+						to="/connections"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -77,11 +74,10 @@ export default function Menus() {
 							<circle cx={9} cy={7} r={4} />
 						</svg>
 						Connections
-					</a>
-					<a
+					</Link>
+					<Link
 						className="px-3.5 py-2 flex items-center gap-3 rounded-xl hover:bg-gray-50"
-						href="/discover"
-						data-discover="true"
+						to="/discover"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -100,11 +96,10 @@ export default function Menus() {
 							<circle cx={11} cy={11} r={8} />
 						</svg>
 						Discover
-					</a>
-					<a
+					</Link>
+					<Link
 						className="px-3.5 py-2 flex items-center gap-3 rounded-xl hover:bg-gray-50"
-						href="/profile"
-						data-discover="true"
+						to="/profile"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +118,7 @@ export default function Menus() {
 							<circle cx={12} cy={7} r={4} />
 						</svg>
 						Profile
-					</a>
+					</Link>
 				</div>
 				<Link
 					className="flex items-center justify-center gap-2 py-2.5 mt-6 mx-6 rounded-lg  bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-700 hover:to-purple-800 active:scale-95 transition text-white cursor-pointer"
@@ -168,24 +163,6 @@ export default function Menus() {
 					<path d="M21 12H9" />
 					<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
 				</svg>
-			</div>
-		</div>
-	);
-}
-
-function UserButton() {
-	return (
-		<div className="flex items-center gap-2 cursor-pointer">
-			<div className="w-8 h-8 rounded-full overflow-hidden">
-				<img
-					src="https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18yeXppZEF6anBLU1FiakFMZjNkUTV3VTlYcE8iLCJyaWQiOiJ1c2VyXzMxME1jaGM3YTdUdzF5NUFkdm9lcm1PTHRGNiJ9?width=160"
-					alt=""
-					className="object-cover"
-				/>
-			</div>
-			<div className="flex flex-col">
-				<h1 className="text-sm font-medium">John Warren</h1>
-				<p className="text-xs text-gray-500">@john_warren</p>
 			</div>
 		</div>
 	);
