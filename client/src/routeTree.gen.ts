@@ -9,134 +9,124 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as DiscoverRouteImport } from './routes/discover'
-import { Route as CreatePostRouteImport } from './routes/create-post'
-import { Route as ConnectionsRouteImport } from './routes/connections'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as PathlessLayoutRouteRouteImport } from './routes/_pathlessLayout/route'
+import { Route as PathlessLayoutIndexRouteImport } from './routes/_pathlessLayout/index'
+import { Route as PathlessLayoutProfileRouteImport } from './routes/_pathlessLayout/profile'
+import { Route as PathlessLayoutMessagesRouteImport } from './routes/_pathlessLayout/messages'
+import { Route as PathlessLayoutDiscoverRouteImport } from './routes/_pathlessLayout/discover'
+import { Route as PathlessLayoutCreatePostRouteImport } from './routes/_pathlessLayout/create-post'
+import { Route as PathlessLayoutConnectionsRouteImport } from './routes/_pathlessLayout/connections'
 
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MessagesRoute = MessagesRouteImport.update({
-  id: '/messages',
-  path: '/messages',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DiscoverRoute = DiscoverRouteImport.update({
-  id: '/discover',
-  path: '/discover',
+const PathlessLayoutRouteRoute = PathlessLayoutRouteRouteImport.update({
+  id: '/_pathlessLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CreatePostRoute = CreatePostRouteImport.update({
-  id: '/create-post',
-  path: '/create-post',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ConnectionsRoute = ConnectionsRouteImport.update({
-  id: '/connections',
-  path: '/connections',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
+const PathlessLayoutIndexRoute = PathlessLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PathlessLayoutRouteRoute,
 } as any)
+const PathlessLayoutProfileRoute = PathlessLayoutProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+const PathlessLayoutMessagesRoute = PathlessLayoutMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+const PathlessLayoutDiscoverRoute = PathlessLayoutDiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+const PathlessLayoutCreatePostRoute =
+  PathlessLayoutCreatePostRouteImport.update({
+    id: '/create-post',
+    path: '/create-post',
+    getParentRoute: () => PathlessLayoutRouteRoute,
+  } as any)
+const PathlessLayoutConnectionsRoute =
+  PathlessLayoutConnectionsRouteImport.update({
+    id: '/connections',
+    path: '/connections',
+    getParentRoute: () => PathlessLayoutRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/connections': typeof ConnectionsRoute
-  '/create-post': typeof CreatePostRoute
-  '/discover': typeof DiscoverRoute
   '/login': typeof LoginRoute
-  '/messages': typeof MessagesRoute
-  '/profile': typeof ProfileRoute
+  '/connections': typeof PathlessLayoutConnectionsRoute
+  '/create-post': typeof PathlessLayoutCreatePostRoute
+  '/discover': typeof PathlessLayoutDiscoverRoute
+  '/messages': typeof PathlessLayoutMessagesRoute
+  '/profile': typeof PathlessLayoutProfileRoute
+  '/': typeof PathlessLayoutIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/connections': typeof ConnectionsRoute
-  '/create-post': typeof CreatePostRoute
-  '/discover': typeof DiscoverRoute
   '/login': typeof LoginRoute
-  '/messages': typeof MessagesRoute
-  '/profile': typeof ProfileRoute
+  '/connections': typeof PathlessLayoutConnectionsRoute
+  '/create-post': typeof PathlessLayoutCreatePostRoute
+  '/discover': typeof PathlessLayoutDiscoverRoute
+  '/messages': typeof PathlessLayoutMessagesRoute
+  '/profile': typeof PathlessLayoutProfileRoute
+  '/': typeof PathlessLayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/connections': typeof ConnectionsRoute
-  '/create-post': typeof CreatePostRoute
-  '/discover': typeof DiscoverRoute
+  '/_pathlessLayout': typeof PathlessLayoutRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/messages': typeof MessagesRoute
-  '/profile': typeof ProfileRoute
+  '/_pathlessLayout/connections': typeof PathlessLayoutConnectionsRoute
+  '/_pathlessLayout/create-post': typeof PathlessLayoutCreatePostRoute
+  '/_pathlessLayout/discover': typeof PathlessLayoutDiscoverRoute
+  '/_pathlessLayout/messages': typeof PathlessLayoutMessagesRoute
+  '/_pathlessLayout/profile': typeof PathlessLayoutProfileRoute
+  '/_pathlessLayout/': typeof PathlessLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
+    | '/login'
     | '/connections'
     | '/create-post'
     | '/discover'
-    | '/login'
     | '/messages'
     | '/profile'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/login'
     | '/connections'
     | '/create-post'
     | '/discover'
-    | '/login'
     | '/messages'
     | '/profile'
+    | '/'
   id:
     | '__root__'
-    | '/'
-    | '/connections'
-    | '/create-post'
-    | '/discover'
+    | '/_pathlessLayout'
     | '/login'
-    | '/messages'
-    | '/profile'
+    | '/_pathlessLayout/connections'
+    | '/_pathlessLayout/create-post'
+    | '/_pathlessLayout/discover'
+    | '/_pathlessLayout/messages'
+    | '/_pathlessLayout/profile'
+    | '/_pathlessLayout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ConnectionsRoute: typeof ConnectionsRoute
-  CreatePostRoute: typeof CreatePostRoute
-  DiscoverRoute: typeof DiscoverRoute
+  PathlessLayoutRouteRoute: typeof PathlessLayoutRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
-  MessagesRoute: typeof MessagesRoute
-  ProfileRoute: typeof ProfileRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/messages': {
-      id: '/messages'
-      path: '/messages'
-      fullPath: '/messages'
-      preLoaderRoute: typeof MessagesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -144,45 +134,82 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/discover': {
-      id: '/discover'
-      path: '/discover'
-      fullPath: '/discover'
-      preLoaderRoute: typeof DiscoverRouteImport
+    '/_pathlessLayout': {
+      id: '/_pathlessLayout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PathlessLayoutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/create-post': {
-      id: '/create-post'
-      path: '/create-post'
-      fullPath: '/create-post'
-      preLoaderRoute: typeof CreatePostRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/connections': {
-      id: '/connections'
-      path: '/connections'
-      fullPath: '/connections'
-      preLoaderRoute: typeof ConnectionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_pathlessLayout/': {
+      id: '/_pathlessLayout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PathlessLayoutIndexRouteImport
+      parentRoute: typeof PathlessLayoutRouteRoute
+    }
+    '/_pathlessLayout/profile': {
+      id: '/_pathlessLayout/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof PathlessLayoutProfileRouteImport
+      parentRoute: typeof PathlessLayoutRouteRoute
+    }
+    '/_pathlessLayout/messages': {
+      id: '/_pathlessLayout/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof PathlessLayoutMessagesRouteImport
+      parentRoute: typeof PathlessLayoutRouteRoute
+    }
+    '/_pathlessLayout/discover': {
+      id: '/_pathlessLayout/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof PathlessLayoutDiscoverRouteImport
+      parentRoute: typeof PathlessLayoutRouteRoute
+    }
+    '/_pathlessLayout/create-post': {
+      id: '/_pathlessLayout/create-post'
+      path: '/create-post'
+      fullPath: '/create-post'
+      preLoaderRoute: typeof PathlessLayoutCreatePostRouteImport
+      parentRoute: typeof PathlessLayoutRouteRoute
+    }
+    '/_pathlessLayout/connections': {
+      id: '/_pathlessLayout/connections'
+      path: '/connections'
+      fullPath: '/connections'
+      preLoaderRoute: typeof PathlessLayoutConnectionsRouteImport
+      parentRoute: typeof PathlessLayoutRouteRoute
     }
   }
 }
 
+interface PathlessLayoutRouteRouteChildren {
+  PathlessLayoutConnectionsRoute: typeof PathlessLayoutConnectionsRoute
+  PathlessLayoutCreatePostRoute: typeof PathlessLayoutCreatePostRoute
+  PathlessLayoutDiscoverRoute: typeof PathlessLayoutDiscoverRoute
+  PathlessLayoutMessagesRoute: typeof PathlessLayoutMessagesRoute
+  PathlessLayoutProfileRoute: typeof PathlessLayoutProfileRoute
+  PathlessLayoutIndexRoute: typeof PathlessLayoutIndexRoute
+}
+
+const PathlessLayoutRouteRouteChildren: PathlessLayoutRouteRouteChildren = {
+  PathlessLayoutConnectionsRoute: PathlessLayoutConnectionsRoute,
+  PathlessLayoutCreatePostRoute: PathlessLayoutCreatePostRoute,
+  PathlessLayoutDiscoverRoute: PathlessLayoutDiscoverRoute,
+  PathlessLayoutMessagesRoute: PathlessLayoutMessagesRoute,
+  PathlessLayoutProfileRoute: PathlessLayoutProfileRoute,
+  PathlessLayoutIndexRoute: PathlessLayoutIndexRoute,
+}
+
+const PathlessLayoutRouteRouteWithChildren =
+  PathlessLayoutRouteRoute._addFileChildren(PathlessLayoutRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ConnectionsRoute: ConnectionsRoute,
-  CreatePostRoute: CreatePostRoute,
-  DiscoverRoute: DiscoverRoute,
+  PathlessLayoutRouteRoute: PathlessLayoutRouteRouteWithChildren,
   LoginRoute: LoginRoute,
-  MessagesRoute: MessagesRoute,
-  ProfileRoute: ProfileRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
