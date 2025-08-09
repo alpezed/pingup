@@ -45,7 +45,7 @@ export const signIn = catchAsync(async (req, res) => {
 	const result = await auth.api.signInEmail({
 		body: { email, password },
 		headers,
-		asResponse: true,
+		// asResponse: true,
 	});
 
 	console.log({ result });
