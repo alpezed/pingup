@@ -1,4 +1,4 @@
-import { posts } from "@/services/api";
+import { posts } from "@/services/post";
 import { queryOptions } from "@tanstack/react-query";
 
 export const postsQueryOptions = () =>

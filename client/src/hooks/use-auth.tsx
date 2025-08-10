@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { login, logout } from "@/services/api";
+import { login, logout } from "@/services/auth";
 import { authQueries } from "@/services/queries";
 import type { User } from "@/types/user.type";
 
@@ -9,11 +9,8 @@ export function useAuth() {
 	const { mutateAsync: loginMutation } = useMutation({
 		mutationFn: ({ email, password }: { email: string; password: string }) =>
 			login(email, password),
-		onSuccess: async () => {
-			// Invalidate and refetch user data
-			// await router.invalidate();
+		onSuccess: () => {
 			window.location.href = "/";
-			// redirect({ to: "/" });
 		},
 		onError: error => {
 			alert(error.message);

@@ -1,7 +1,16 @@
 import type { User } from "@/types/user.type";
 
-export interface Auth {
+export interface LoginResponse {
 	redirect: boolean;
 	token: string;
-	user: Pick<User, "id" | "email" | "name" | "image" | "username">;
+	user: Pick<
+		User,
+		| "id"
+		| "email"
+		| "name"
+		| "image"
+		| "createdAt"
+		| "updatedAt"
+		| "emailVerified"
+	>;
 }

@@ -20,7 +20,7 @@ function RouteComponent() {
 				<Stories />
 				<div className='p-4 space-y-6'>
 					{posts.data.map(post => (
-						<Post post={post} key={post.id} />
+						<Post post={post} key={post._id} />
 					))}
 				</div>
 			</div>

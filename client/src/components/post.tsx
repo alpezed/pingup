@@ -1,5 +1,5 @@
-import type { Author, Post } from "@/types/post.type";
 import { timeAgo } from "@/utils/dayjs";
+import type { Author, Post } from "@/schema/post.schema";
 
 // Generate a color based on the user's id or name
 const colors = [
@@ -79,11 +79,7 @@ export default function Post({ post }: { post: Post }) {
 				</div>
 			</div>
 			<div className='text-gray-800 text-sm whitespace-pre-line'>
-				Stay ahead of the curve with fresh content on{" "}
-				<span className='text-indigo-600 '>#code</span>,{" "}
-				<span className='text-indigo-600 '>#design</span>,{" "}
-				<span className='text-indigo-600 '>#startups</span>, and everything in
-				between.
+				{post.body}
 			</div>
 			<div className='grid grid-cols-2 gap-2'>
 				{post.image_urls && post.image_urls.length > 0 && (
@@ -111,7 +107,7 @@ export default function Post({ post }: { post: Post }) {
 					>
 						<path d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z' />
 					</svg>
-					<span>178</span>
+					<span>{post.likes.length || 0}</span>
 				</div>
 				<div className='flex items-center gap-1'>
 					<svg

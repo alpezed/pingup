@@ -1,15 +1,22 @@
+import type { APIResponse } from "@/types/api-response";
+import type { LoginResponse } from "@/types/auth.type";
+
 export async function login(email: string, password: string) {
-	const result = await fetch("http://localhost:3001/api/v1/users/login", {
+	const result = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({ email, password }),
-		credentials: "include", // This ensures cookies are sent and received
+		credentials: "include",
 	});
-	const data = await result.json();
 
-	if (data?.error) throw new Error(data.message);
+	if (!result.ok) {
+		const error = await result.json();
+		throw new Error(error.message);
+	}
 
-	return data;
+	const response = (await result.json()) as APIResponse<LoginResponse>;
+
+	return response;
 }
 
 export async function getMe() {
@@ -32,16 +39,5 @@ export async function logout() {
 		credentials: "include", // Include cookies for logout
 	});
 	if (!result.ok) throw new Error("Logout failed");
-	return result.json();
-}
-
-export async function posts() {
-	const result = await fetch("http://localhost:3001/api/v1/posts", {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		credentials: "include",
-	});
 	return result.json();
 }

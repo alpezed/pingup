@@ -1,33 +1,15 @@
 import type { User } from "@/types/user.type";
-import type { Auth as AuthType } from "@/types/auth.type";
-import type { APIResponse } from "@/types/api-response";
-import { logout as logoutFn } from "@/services/api";
+import { logout as logoutFn, login as loginFn } from "@/services/auth";
 
 export const auth: Auth = {
 	user: undefined,
 	login: async (
 		email: string,
 		password: string
-	): Promise<APIResponse<AuthType>> => {
-		const result = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ email, password }),
-			credentials: "include",
-		});
-
-		if (!result.ok) {
-			const error = await result.json();
-			throw new Error(error.message);
-		}
-
-		const response = await result.json();
-
-		if (response?.error) throw new Error(response.message);
-
-		auth.user = response.data.user;
-
-		return response;
+	): Promise<ReturnType<typeof loginFn>> => {
+		const result = await loginFn(email, password);
+		console.log({ result });
+		return result;
 	},
 	logout: async () => {
 		await logoutFn();
@@ -36,7 +18,10 @@ export const auth: Auth = {
 };
 
 export interface Auth {
-	login: (email: string, password: string) => Promise<APIResponse<AuthType>>;
+	login: (
+		email: string,
+		password: string
+	) => Promise<ReturnType<typeof loginFn>>;
 	logout: () => Promise<void>;
 	user?: User;
 }
