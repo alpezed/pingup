@@ -6,10 +6,10 @@ export default function UserMenu() {
 
 	return (
 		<div className='w-full border-t border-gray-200 p-4 px-7 flex items-center justify-between'>
-			<UserButton />
+			<UserButton className='cursor-pointer' />
 			<button
 				type='button'
-				onClick={async () => await logout()}
+				onClick={logout}
 				className='flex items-center gap-2 cursor-pointer'
 			>
 				<svg

@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export const createPostSchema = z.object({
+	body: z.string(),
+	images: z.array(z.file()),
+});
+
 export const authorSchema = z.object({
 	_id: z.string(),
 	name: z.string(),
@@ -22,3 +27,5 @@ export const postSchema = z.object({
 export type Post = z.infer<typeof postSchema>;
 
 export type Author = z.infer<typeof authorSchema>;
+
+export type CreatePost = z.infer<typeof createPostSchema>;
