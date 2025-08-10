@@ -2,7 +2,7 @@ import { useRouteContext } from "@tanstack/react-router";
 import UserButton from "./user-button";
 
 export default function UserMenu() {
-	const { logout } = useRouteContext({ from: "/_app" }).auth;
+	const { logout } = useRouteContext({ from: "__root__" }).auth;
 
 	return (
 		<div className='w-full border-t border-gray-200 p-4 px-7 flex items-center justify-between'>

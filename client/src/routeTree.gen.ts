@@ -10,82 +10,91 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as AppRouteImport } from './routes/_app'
-import { Route as AppIndexRouteImport } from './routes/_app.index'
-import { Route as AppProfileRouteImport } from './routes/_app.profile'
-import { Route as AppMessagesRouteImport } from './routes/_app.messages'
-import { Route as AppDiscoverRouteImport } from './routes/_app.discover'
-import { Route as AppCreatePostRouteImport } from './routes/_app.create-post'
-import { Route as AppConnectionsRouteImport } from './routes/_app.connections'
+import { Route as HomeRouteRouteImport } from './routes/_home/route'
+import { Route as HomeIndexRouteImport } from './routes/_home/index'
+import { Route as HomeProfileRouteImport } from './routes/_home/profile'
+import { Route as HomeMessagesRouteImport } from './routes/_home/messages'
+import { Route as HomeFeedRouteImport } from './routes/_home/feed'
+import { Route as HomeDiscoverRouteImport } from './routes/_home/discover'
+import { Route as HomeCreatePostRouteImport } from './routes/_home/create-post'
+import { Route as HomeConnectionsRouteImport } from './routes/_home/connections'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppRoute = AppRouteImport.update({
-  id: '/_app',
+const HomeRouteRoute = HomeRouteRouteImport.update({
+  id: '/_home',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppIndexRoute = AppIndexRouteImport.update({
+const HomeIndexRoute = HomeIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => HomeRouteRoute,
 } as any)
-const AppProfileRoute = AppProfileRouteImport.update({
+const HomeProfileRoute = HomeProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => HomeRouteRoute,
 } as any)
-const AppMessagesRoute = AppMessagesRouteImport.update({
+const HomeMessagesRoute = HomeMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => HomeRouteRoute,
 } as any)
-const AppDiscoverRoute = AppDiscoverRouteImport.update({
+const HomeFeedRoute = HomeFeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeDiscoverRoute = HomeDiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => HomeRouteRoute,
 } as any)
-const AppCreatePostRoute = AppCreatePostRouteImport.update({
+const HomeCreatePostRoute = HomeCreatePostRouteImport.update({
   id: '/create-post',
   path: '/create-post',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => HomeRouteRoute,
 } as any)
-const AppConnectionsRoute = AppConnectionsRouteImport.update({
+const HomeConnectionsRoute = HomeConnectionsRouteImport.update({
   id: '/connections',
   path: '/connections',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => HomeRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
-  '/connections': typeof AppConnectionsRoute
-  '/create-post': typeof AppCreatePostRoute
-  '/discover': typeof AppDiscoverRoute
-  '/messages': typeof AppMessagesRoute
-  '/profile': typeof AppProfileRoute
-  '/': typeof AppIndexRoute
+  '/connections': typeof HomeConnectionsRoute
+  '/create-post': typeof HomeCreatePostRoute
+  '/discover': typeof HomeDiscoverRoute
+  '/feed': typeof HomeFeedRoute
+  '/messages': typeof HomeMessagesRoute
+  '/profile': typeof HomeProfileRoute
+  '/': typeof HomeIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/connections': typeof AppConnectionsRoute
-  '/create-post': typeof AppCreatePostRoute
-  '/discover': typeof AppDiscoverRoute
-  '/messages': typeof AppMessagesRoute
-  '/profile': typeof AppProfileRoute
-  '/': typeof AppIndexRoute
+  '/connections': typeof HomeConnectionsRoute
+  '/create-post': typeof HomeCreatePostRoute
+  '/discover': typeof HomeDiscoverRoute
+  '/feed': typeof HomeFeedRoute
+  '/messages': typeof HomeMessagesRoute
+  '/profile': typeof HomeProfileRoute
+  '/': typeof HomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_app': typeof AppRouteWithChildren
+  '/_home': typeof HomeRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/_app/connections': typeof AppConnectionsRoute
-  '/_app/create-post': typeof AppCreatePostRoute
-  '/_app/discover': typeof AppDiscoverRoute
-  '/_app/messages': typeof AppMessagesRoute
-  '/_app/profile': typeof AppProfileRoute
-  '/_app/': typeof AppIndexRoute
+  '/_home/connections': typeof HomeConnectionsRoute
+  '/_home/create-post': typeof HomeCreatePostRoute
+  '/_home/discover': typeof HomeDiscoverRoute
+  '/_home/feed': typeof HomeFeedRoute
+  '/_home/messages': typeof HomeMessagesRoute
+  '/_home/profile': typeof HomeProfileRoute
+  '/_home/': typeof HomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
     | '/connections'
     | '/create-post'
     | '/discover'
+    | '/feed'
     | '/messages'
     | '/profile'
     | '/'
@@ -103,23 +113,25 @@ export interface FileRouteTypes {
     | '/connections'
     | '/create-post'
     | '/discover'
+    | '/feed'
     | '/messages'
     | '/profile'
     | '/'
   id:
     | '__root__'
-    | '/_app'
+    | '/_home'
     | '/login'
-    | '/_app/connections'
-    | '/_app/create-post'
-    | '/_app/discover'
-    | '/_app/messages'
-    | '/_app/profile'
-    | '/_app/'
+    | '/_home/connections'
+    | '/_home/create-post'
+    | '/_home/discover'
+    | '/_home/feed'
+    | '/_home/messages'
+    | '/_home/profile'
+    | '/_home/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AppRoute: typeof AppRouteWithChildren
+  HomeRouteRoute: typeof HomeRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
 }
 
@@ -132,80 +144,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app': {
-      id: '/_app'
+    '/_home': {
+      id: '/_home'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AppRouteImport
+      preLoaderRoute: typeof HomeRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/': {
-      id: '/_app/'
+    '/_home/': {
+      id: '/_home/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof HomeIndexRouteImport
+      parentRoute: typeof HomeRouteRoute
     }
-    '/_app/profile': {
-      id: '/_app/profile'
+    '/_home/profile': {
+      id: '/_home/profile'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof AppProfileRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof HomeProfileRouteImport
+      parentRoute: typeof HomeRouteRoute
     }
-    '/_app/messages': {
-      id: '/_app/messages'
+    '/_home/messages': {
+      id: '/_home/messages'
       path: '/messages'
       fullPath: '/messages'
-      preLoaderRoute: typeof AppMessagesRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof HomeMessagesRouteImport
+      parentRoute: typeof HomeRouteRoute
     }
-    '/_app/discover': {
-      id: '/_app/discover'
+    '/_home/feed': {
+      id: '/_home/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof HomeFeedRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/_home/discover': {
+      id: '/_home/discover'
       path: '/discover'
       fullPath: '/discover'
-      preLoaderRoute: typeof AppDiscoverRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof HomeDiscoverRouteImport
+      parentRoute: typeof HomeRouteRoute
     }
-    '/_app/create-post': {
-      id: '/_app/create-post'
+    '/_home/create-post': {
+      id: '/_home/create-post'
       path: '/create-post'
       fullPath: '/create-post'
-      preLoaderRoute: typeof AppCreatePostRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof HomeCreatePostRouteImport
+      parentRoute: typeof HomeRouteRoute
     }
-    '/_app/connections': {
-      id: '/_app/connections'
+    '/_home/connections': {
+      id: '/_home/connections'
       path: '/connections'
       fullPath: '/connections'
-      preLoaderRoute: typeof AppConnectionsRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof HomeConnectionsRouteImport
+      parentRoute: typeof HomeRouteRoute
     }
   }
 }
 
-interface AppRouteChildren {
-  AppConnectionsRoute: typeof AppConnectionsRoute
-  AppCreatePostRoute: typeof AppCreatePostRoute
-  AppDiscoverRoute: typeof AppDiscoverRoute
-  AppMessagesRoute: typeof AppMessagesRoute
-  AppProfileRoute: typeof AppProfileRoute
-  AppIndexRoute: typeof AppIndexRoute
+interface HomeRouteRouteChildren {
+  HomeConnectionsRoute: typeof HomeConnectionsRoute
+  HomeCreatePostRoute: typeof HomeCreatePostRoute
+  HomeDiscoverRoute: typeof HomeDiscoverRoute
+  HomeFeedRoute: typeof HomeFeedRoute
+  HomeMessagesRoute: typeof HomeMessagesRoute
+  HomeProfileRoute: typeof HomeProfileRoute
+  HomeIndexRoute: typeof HomeIndexRoute
 }
 
-const AppRouteChildren: AppRouteChildren = {
-  AppConnectionsRoute: AppConnectionsRoute,
-  AppCreatePostRoute: AppCreatePostRoute,
-  AppDiscoverRoute: AppDiscoverRoute,
-  AppMessagesRoute: AppMessagesRoute,
-  AppProfileRoute: AppProfileRoute,
-  AppIndexRoute: AppIndexRoute,
+const HomeRouteRouteChildren: HomeRouteRouteChildren = {
+  HomeConnectionsRoute: HomeConnectionsRoute,
+  HomeCreatePostRoute: HomeCreatePostRoute,
+  HomeDiscoverRoute: HomeDiscoverRoute,
+  HomeFeedRoute: HomeFeedRoute,
+  HomeMessagesRoute: HomeMessagesRoute,
+  HomeProfileRoute: HomeProfileRoute,
+  HomeIndexRoute: HomeIndexRoute,
 }
 
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(
+  HomeRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
-  AppRoute: AppRouteWithChildren,
+  HomeRouteRoute: HomeRouteRouteWithChildren,
   LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport

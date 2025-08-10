@@ -3,7 +3,7 @@ import Sidebar from "@/components/sidebar";
 import Stories from "@/components/stories";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_app/")({
+export const Route = createFileRoute("/_home/")({
 	component: RouteComponent,
 });
 
@@ -18,5 +18,5 @@ function RouteComponent() {
 			</div>
 			<Sidebar />
 		</div>
-	)
+	);
 }
