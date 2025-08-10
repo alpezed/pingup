@@ -34,3 +34,14 @@ export async function logout() {
 	if (!result.ok) throw new Error("Logout failed");
 	return result.json();
 }
+
+export async function posts() {
+	const result = await fetch("http://localhost:3001/api/v1/posts", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include",
+	});
+	return result.json();
+}

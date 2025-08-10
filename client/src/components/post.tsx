@@ -1,15 +1,61 @@
-export default function Post() {
+import type { Author, Post } from "@/types/post.type";
+import { timeAgo } from "@/utils/dayjs";
+
+// Generate a color based on the user's id or name
+const colors = [
+	"bg-red-400",
+	"bg-orange-400",
+	"bg-amber-400",
+	"bg-yellow-400",
+	"bg-lime-400",
+	"bg-green-400",
+	"bg-emerald-400",
+	"bg-teal-400",
+	"bg-cyan-400",
+	"bg-sky-400",
+	"bg-blue-400",
+	"bg-indigo-400",
+	"bg-violet-400",
+	"bg-purple-400",
+	"bg-fuchsia-400",
+	"bg-pink-400",
+	"bg-rose-400",
+];
+
+function UserAvatar({ user }: { user: Author }) {
+	if (!user.image) {
+		const str = user._id || user.email || user.name;
+		let hash = 0;
+		for (let i = 0; i < str.length; i++) {
+			hash = str.charCodeAt(i) + ((hash << 5) - hash);
+		}
+		const color = colors[Math.abs(hash) % colors.length];
+		return (
+			<div
+				className={`w-10 h-10 rounded-full shadow flex items-center justify-center text-lg ${color} text-white`}
+			>
+				{user.name.charAt(0).toUpperCase()}
+			</div>
+		);
+	}
+
+	return (
+		<img
+			alt='profile'
+			className='w-10 h-10 rounded-full shadow object-cover'
+			src={user.image}
+		/>
+	);
+}
+
+export default function Post({ post }: { post: Post }) {
 	return (
 		<div className='bg-white rounded-xl shadow p-4 space-y-4 w-full max-w-2xl'>
 			<div className='inline-flex items-center gap-3 cursor-pointer'>
-				<img
-					alt='profile'
-					className='w-10 h-10 rounded-full shadow'
-					src='https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzMwY3paZ0s0RDVSQWVVYmVSNExOQzQ3MnRTdyJ9'
-				/>
+				<UserAvatar user={post.author} />
 				<div>
 					<div className='flex items-center space-x-1'>
-						<span className='font-semibold'>Great Stack</span>
+						<span className='font-semibold'>{post.author?.name}</span>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							width={24}
@@ -27,7 +73,9 @@ export default function Post() {
 							<path d='m9 12 2 2 4-4' />
 						</svg>
 					</div>
-					<div className='text-gray-500 text-sm'>@greatstack • 8 days ago</div>
+					<div className='text-gray-500 text-sm'>
+						@{post.author.username} • {timeAgo(post.updatedAt)}
+					</div>
 				</div>
 			</div>
 			<div className='text-gray-800 text-sm whitespace-pre-line'>
@@ -38,11 +86,13 @@ export default function Post() {
 				between.
 			</div>
 			<div className='grid grid-cols-2 gap-2'>
-				<img
-					alt='images'
-					className='w-full object-cover rounded-lg col-span-2 h-auto'
-					src='https://ik.imagekit.io/devtechz/tr:q-auto:f-webp:w-1280/posts/Ping_up__-_6_u8vldWFk_i_-S182Z_BhI.webp'
-				/>
+				{post.image_urls && post.image_urls.length > 0 && (
+					<img
+						alt='images'
+						className='w-full object-cover rounded-lg col-span-2 h-auto'
+						src={post.image_urls[0]}
+					/>
+				)}
 			</div>
 			<div className='flex items-center gap-4 text-gray-600 text-sm pt-2 border-t border-gray-300'>
 				<div className='flex items-center gap-1'>
