@@ -1,7 +1,7 @@
-import { useRouteContext } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function UserButton() {
-	const { user, logout } = useRouteContext({ from: "/_pathlessLayout/" }).auth;
+	const { user, logout } = useAuth();
 
 	return (
 		<div className='flex items-center gap-2 cursor-pointer' onClick={logout}>

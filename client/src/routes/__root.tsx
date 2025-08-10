@@ -1,25 +1,25 @@
-import type { AuthContext } from "@/hooks/use-auth";
 import { authQueries } from "@/services/queries";
 import type { User } from "@/types/user.type";
 import { type QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { auth } from "@/utils/auth";
 
 export const Route = createRootRouteWithContext<{
-	auth: AuthContext;
 	queryClient: QueryClient;
 }>()({
-	beforeLoad: async ({ context, location }) => {
-		console.log("--beforeLoad", location.pathname !== "/login");
+	beforeLoad: async ({ context }) => {
+		const authUser = await context.queryClient.ensureQueryData(
+			authQueries.user()
+		);
 
-		if (location.pathname !== "/login") {
-			const authState = await context.queryClient.ensureQueryData(
-				authQueries.user()
-			);
-			context.auth.user = authState.data as User;
-		}
-
-		return context;
+		return {
+			auth: {
+				...auth,
+				user: authUser as User,
+			},
+			isAuthed: !!authUser,
+		};
 	},
 	component: () => (
 		<>

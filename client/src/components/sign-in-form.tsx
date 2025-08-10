@@ -2,10 +2,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
 import { signInSchema, type SignInFormValues } from "@/schema/login.schema";
-import { useAuth } from "@/hooks/use-auth";
+import { useRouteContext } from "@tanstack/react-router";
 
 export default function SignInForm() {
-	const { login } = useAuth();
+	const { login } = useRouteContext({ from: "__root__" }).auth;
 
 	const {
 		register,
@@ -16,10 +16,8 @@ export default function SignInForm() {
 	});
 
 	const onSubmit = async (data: SignInFormValues) => {
-		await login({
-			email: data.email,
-			password: data.password,
-		});
+		await login(data.email, data.password);
+		window.location.href = "/";
 	};
 
 	return (

@@ -1,12 +1,10 @@
-import { getMe } from "@/services/api";
+import { authClient } from "@/lib/auth-client";
 import { queryOptions } from "@tanstack/react-query";
 
 export const authQueries = {
-	user: (enabled: boolean = true) =>
+	user: () =>
 		queryOptions({
-			queryKey: ["me"],
-			queryFn: getMe,
-			retry: false,
-			enabled: enabled,
+			queryKey: ["user"],
+			queryFn: async () => (await authClient.getSession()).data?.user ?? null,
 		}),
 };

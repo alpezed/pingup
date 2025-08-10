@@ -16,15 +16,18 @@ if (process.env.NODE_ENV === "development") {
 	app.use(morgan("dev"));
 }
 
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		methods: ["GET", "POST", "PUT", "DELETE"],
+		credentials: true, // Allow cookies to be sent
+		allowedHeaders: ["Content-Type", "Authorization"],
+	})
+);
+
 app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.use(express.json());
-app.use(
-	cors({
-		origin: "http://localhost:3000", // Your client URL
-		credentials: true, // Allow cookies to be sent
-	})
-);
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/users", userRoutes);

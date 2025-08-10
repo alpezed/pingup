@@ -1,21 +1,21 @@
 import Menus from "@/components/menus";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_pathlessLayout")({
-	component: App,
+export const Route = createFileRoute("/_app")({
+	component: Home,
 	beforeLoad: async ({ context, location }) => {
-		if (!context.auth.user) {
+		if (!context.isAuthed) {
 			throw redirect({
 				to: "/login",
 				search: {
 					redirect: location.href,
 				},
-			});
+			})
 		}
 	},
 });
 
-function App() {
+function Home() {
 	return (
 		<div className='w-full flex h-screen'>
 			<Menus />
@@ -23,5 +23,5 @@ function App() {
 				<Outlet />
 			</div>
 		</div>
-	);
+	)
 }

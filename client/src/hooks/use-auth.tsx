@@ -4,9 +4,7 @@ import { authQueries } from "@/services/queries";
 import type { User } from "@/types/user.type";
 
 export function useAuth() {
-	const { data: user } = useQuery(
-		authQueries.user(window.location.pathname !== "/login")
-	);
+	const { data: user } = useQuery(authQueries.user());
 
 	const { mutateAsync: loginMutation } = useMutation({
 		mutationFn: ({ email, password }: { email: string; password: string }) =>
@@ -28,7 +26,6 @@ export function useAuth() {
 
 	const logoutHandler = async () => {
 		await logoutMutation();
-		// navigate({ to: "/login" });
 		window.location.href = "/login";
 	};
 

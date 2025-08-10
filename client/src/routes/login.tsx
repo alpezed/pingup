@@ -1,11 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import SignInForm from "@/components/login-form";
+import SignInForm from "@/components/sign-in-form";
 
 export const Route = createFileRoute("/login")({
 	component: Login,
 	beforeLoad: ({ context }) => {
-		// If user is already authenticated, redirect to home or intended destination
-		if (context.auth.user) {
+		if (context.isAuthed) {
 			throw redirect({ to: "/" });
 		}
 	},
