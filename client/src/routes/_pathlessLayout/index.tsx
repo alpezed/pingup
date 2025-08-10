@@ -9,14 +9,14 @@ export const Route = createFileRoute("/_pathlessLayout/")({
 
 function RouteComponent() {
 	return (
-		<div className="h-full overflow-y-scroll no-scrollbar py-10 xl:pr-5 flex items-start justify-center xl:gap-8 ">
+		<div className='h-full overflow-y-scroll no-scrollbar py-10 xl:pr-5 flex items-start justify-center xl:gap-8 '>
 			<div>
 				<Stories />
-				<div className="p-4 space-y-6">
+				<div className='p-4 space-y-6'>
 					<Post />
 				</div>
 			</div>
 			<Sidebar />
 		</div>
-	)
+	);
 }

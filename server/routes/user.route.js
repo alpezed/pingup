@@ -31,7 +31,7 @@ router.use("/:userId/posts", postRoutes);
 
 router.post("/signup", signUp);
 router.post("/login", signIn);
-router.get("/logout", logout);
+router.post("/logout", logout);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 

@@ -16,9 +16,10 @@ export default function SignInForm() {
 	});
 
 	const onSubmit = async (data: SignInFormValues) => {
-		// handle sign in logic here
-		console.log(data);
-		await login({ email: data.email, password: data.password });
+		await login({
+			email: data.email,
+			password: data.password,
+		});
 	};
 
 	return (

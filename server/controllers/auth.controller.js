@@ -45,27 +45,44 @@ export const signIn = catchAsync(async (req, res) => {
 	const result = await auth.api.signInEmail({
 		body: { email, password },
 		headers,
-		// asResponse: true,
+		asResponse: true,
+		redirectTo: "/",
 	});
 
-	console.log({ result });
-
-	if (!result) {
-		throw new APIError(result.statusText, {
-			message: result.message,
+	if (result.status === 401) {
+		throw new APIError("UNAUTHORIZED", {
+			message: "Invalid credentials",
 		});
 	}
+
+	// Set the cookies from Better Auth response
+	const cookie = result.headers.get("set-cookie");
+	if (cookie) {
+		res.set("set-cookie", cookie);
+	}
+
+	const response = await result.json();
+
 	res.status(200).json({
 		success: true,
-		data: result,
+		data: response,
 	});
 });
 
 export const logout = catchAsync(async (req, res) => {
-	await auth.api.signOut({
+	const response = await auth.api.signOut({
 		headers: fromNodeHeaders(req.headers),
+		asResponse: true,
 	});
-	res.status(200).json({ success: true, message: "Logged out successfully" });
+
+	const cookie = response.headers.get("set-cookie");
+	if (cookie) {
+		res.set("set-cookie", cookie);
+	}
+
+	res
+		.status(response.status)
+		.json({ success: true, message: "Logged out successfully" });
 });
 
 export const forgotPassword = catchAsync(async (req, res) => {
