@@ -43,6 +43,13 @@ export const imageKitImages = catchAsync(async (req, res, next) => {
 export const createPost = catchAsync(async (req, res) => {
 	const { body } = req.body;
 
+	if (!body && req.files.length === 0) {
+		return res.status(400).json({
+			success: false,
+			message: "Post body is required",
+		});
+	}
+
 	const newPost = await Post.create({
 		body,
 		image_urls: req.postImages,
