@@ -8,7 +8,6 @@ export const auth: Auth = {
 		password: string
 	): Promise<ReturnType<typeof loginFn>> => {
 		const result = await loginFn(email, password);
-		console.log({ result });
 		return result;
 	},
 	logout: async () => {

@@ -1,18 +1,18 @@
 import Post from "@/components/post";
 import Sidebar from "@/components/sidebar";
 import Stories from "@/components/stories";
-import { postsQueryOptions } from "@/utils/query-options";
+import { postQueries } from "@/services/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_home/")({
 	component: RouteComponent,
 	loader: ({ context }) =>
-		context.queryClient.ensureQueryData(postsQueryOptions()),
+		context.queryClient.ensureQueryData(postQueries.posts()),
 });
 
 function RouteComponent() {
-	const { data: posts } = useSuspenseQuery(postsQueryOptions());
+	const { data: posts } = useSuspenseQuery(postQueries.posts());
 
 	return (
 		<div className='h-full overflow-y-scroll no-scrollbar py-10 xl:pr-5 flex items-start justify-center xl:gap-8 '>

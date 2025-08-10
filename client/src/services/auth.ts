@@ -20,7 +20,7 @@ export async function login(email: string, password: string) {
 }
 
 export async function getMe() {
-	const result = await fetch("http://localhost:3001/api/v1/users/me", {
+	const result = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -31,12 +31,12 @@ export async function getMe() {
 }
 
 export async function logout() {
-	const result = await fetch("http://localhost:3001/api/v1/users/logout", {
+	const result = await fetch(`${import.meta.env.VITE_API_URL}/users/logout`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		credentials: "include", // Include cookies for logout
+		credentials: "include",
 	});
 	if (!result.ok) throw new Error("Logout failed");
 	return result.json();
