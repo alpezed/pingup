@@ -2,33 +2,24 @@ import { APIError } from "better-auth/api";
 import { fromNodeHeaders } from "better-auth/node";
 
 import { auth } from "../lib/auth.js";
+import { catchAsync } from "../utils/catch-async.js";
 
-export const protect = async (req, res, next) => {
+export const protect = catchAsync(async (req, res, next) => {
 	const headers = fromNodeHeaders(req.headers);
-	try {
-		const session = await auth.api.getSession({
-			headers,
+
+	const session = await auth.api.getSession({
+		headers,
+	});
+
+	if (!session?.user) {
+		throw new APIError("UNAUTHORIZED", {
+			message: "Unauthorized",
 		});
-
-		if (!session?.user) {
-			throw new APIError("UNAUTHORIZED", {
-				message: "Unauthorized",
-			});
-		}
-
-		req.user = session.user;
-		next();
-	} catch (err) {
-		if (err instanceof APIError) {
-			return res.status(err.statusCode).json({
-				success: false,
-				message: err.message,
-			});
-		}
-		console.error("Session middleware error:", err);
-		res.status(500).json({ error: "Internal server error" });
 	}
-};
+
+	req.user = session.user;
+	next();
+});
 
 export const restrictTo =
 	(...allowedRoles) =>
