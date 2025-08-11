@@ -8,6 +8,8 @@ import { UserPosts } from "@/routes/_home/-components/user-posts";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+import { EditProfile } from "./-components/edit-profile";
+
 export const Route = createFileRoute("/_home/profile")({
 	component: Profile,
 	loader: ({ context }) => {
@@ -83,25 +85,7 @@ function Profile() {
 										</div>
 										<p className="text-gray-600">@{auth.user.username}</p>
 									</div>
-									<button className="flex items-center gap-2 border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium transition-colors mt-4 md:mt-0">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width={24}
-											height={24}
-											viewBox="0 0 24 24"
-											fill="none"
-											stroke="currentColor"
-											strokeWidth={2}
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											className="lucide lucide-square-pen w-4 h-4"
-											aria-hidden="true"
-										>
-											<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-											<path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-										</svg>
-										Edit
-									</button>
+									<EditProfile />
 								</div>
 								{auth.user.bio && (
 									<p className="text-gray-700 text-sm max-w-md mt-4">
