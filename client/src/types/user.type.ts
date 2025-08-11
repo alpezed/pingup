@@ -3,8 +3,8 @@ export interface User {
 	email: string;
 	emailVerified: boolean;
 	image: string;
-	createdAt: string;
-	updatedAt: string;
+	createdAt: Date;
+	updatedAt: Date;
 	role: string;
 	username: string;
 	cover_photo: string;
