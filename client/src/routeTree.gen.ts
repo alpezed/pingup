@@ -17,6 +17,7 @@ import { Route as HomeDiscoverRouteImport } from './routes/_home/discover'
 import { Route as HomeConnectionsRouteImport } from './routes/_home/connections'
 import { Route as HomePostNewRouteImport } from './routes/_home/post.new'
 import { Route as HomeAccountProfileRouteImport } from './routes/_home/account.profile'
+import { Route as HomePostPostIdEditRouteImport } from './routes/_home/post.$postId.edit'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -57,6 +58,11 @@ const HomeAccountProfileRoute = HomeAccountProfileRouteImport.update({
   path: '/account/profile',
   getParentRoute: () => HomeRouteRoute,
 } as any)
+const HomePostPostIdEditRoute = HomePostPostIdEditRouteImport.update({
+  id: '/post/$postId/edit',
+  path: '/post/$postId/edit',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/': typeof HomeIndexRoute
   '/account/profile': typeof HomeAccountProfileRoute
   '/post/new': typeof HomePostNewRoute
+  '/post/$postId/edit': typeof HomePostPostIdEditRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/': typeof HomeIndexRoute
   '/account/profile': typeof HomeAccountProfileRoute
   '/post/new': typeof HomePostNewRoute
+  '/post/$postId/edit': typeof HomePostPostIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/_home/': typeof HomeIndexRoute
   '/_home/account/profile': typeof HomeAccountProfileRoute
   '/_home/post/new': typeof HomePostNewRoute
+  '/_home/post/$postId/edit': typeof HomePostPostIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account/profile'
     | '/post/new'
+    | '/post/$postId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account/profile'
     | '/post/new'
+    | '/post/$postId/edit'
   id:
     | '__root__'
     | '/_home'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/_home/'
     | '/_home/account/profile'
     | '/_home/post/new'
+    | '/_home/post/$postId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -181,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeAccountProfileRouteImport
       parentRoute: typeof HomeRouteRoute
     }
+    '/_home/post/$postId/edit': {
+      id: '/_home/post/$postId/edit'
+      path: '/post/$postId/edit'
+      fullPath: '/post/$postId/edit'
+      preLoaderRoute: typeof HomePostPostIdEditRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
   }
 }
 
@@ -191,6 +210,7 @@ interface HomeRouteRouteChildren {
   HomeIndexRoute: typeof HomeIndexRoute
   HomeAccountProfileRoute: typeof HomeAccountProfileRoute
   HomePostNewRoute: typeof HomePostNewRoute
+  HomePostPostIdEditRoute: typeof HomePostPostIdEditRoute
 }
 
 const HomeRouteRouteChildren: HomeRouteRouteChildren = {
@@ -200,6 +220,7 @@ const HomeRouteRouteChildren: HomeRouteRouteChildren = {
   HomeIndexRoute: HomeIndexRoute,
   HomeAccountProfileRoute: HomeAccountProfileRoute,
   HomePostNewRoute: HomePostNewRoute,
+  HomePostPostIdEditRoute: HomePostPostIdEditRoute,
 }
 
 const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(
