@@ -2,7 +2,7 @@ import Menus from "@/components/menus";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_home")({
-	component: Home,
+	component: HomeComponent,
 	beforeLoad: async ({ context, location }) => {
 		if (!context.isAuthed) {
 			throw redirect({
@@ -13,13 +13,21 @@ export const Route = createFileRoute("/_home")({
 			});
 		}
 	},
+	pendingComponent: () => (
+		<div className="w-full flex h-screen">
+			<Menus />
+			<div className="flex-1 bg-slate-50">
+				<div>Loading...</div>
+			</div>
+		</div>
+	),
 });
 
-function Home() {
+function HomeComponent() {
 	return (
-		<div className='w-full flex h-screen'>
+		<div className="w-full flex h-screen">
 			<Menus />
-			<div className='flex-1 bg-slate-50'>
+			<div className="flex-1 bg-slate-50">
 				<Outlet />
 			</div>
 		</div>

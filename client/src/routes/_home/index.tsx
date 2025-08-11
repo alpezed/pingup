@@ -15,10 +15,10 @@ function RouteComponent() {
 	const { data: posts } = useSuspenseQuery(postQueries.posts());
 
 	return (
-		<div className='h-full overflow-y-scroll no-scrollbar py-10 xl:pr-5 flex items-start justify-center xl:gap-8 '>
+		<div className="h-full overflow-y-scroll no-scrollbar py-10 xl:pr-5 flex items-start justify-center xl:gap-8 ">
 			<div>
 				<Stories />
-				<div className='p-4 space-y-6'>
+				<div className="p-4 space-y-6">
 					{posts.data.map(post => (
 						<Post post={post} key={post._id} />
 					))}

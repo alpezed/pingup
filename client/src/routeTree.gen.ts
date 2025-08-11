@@ -14,7 +14,6 @@ import { Route as HomeRouteRouteImport } from './routes/_home/route'
 import { Route as HomeIndexRouteImport } from './routes/_home/index'
 import { Route as HomeProfileRouteImport } from './routes/_home/profile'
 import { Route as HomeMessagesRouteImport } from './routes/_home/messages'
-import { Route as HomeFeedRouteImport } from './routes/_home/feed'
 import { Route as HomeDiscoverRouteImport } from './routes/_home/discover'
 import { Route as HomeCreatePostRouteImport } from './routes/_home/create-post'
 import { Route as HomeConnectionsRouteImport } from './routes/_home/connections'
@@ -43,11 +42,6 @@ const HomeMessagesRoute = HomeMessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => HomeRouteRoute,
 } as any)
-const HomeFeedRoute = HomeFeedRouteImport.update({
-  id: '/feed',
-  path: '/feed',
-  getParentRoute: () => HomeRouteRoute,
-} as any)
 const HomeDiscoverRoute = HomeDiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
@@ -69,7 +63,6 @@ export interface FileRoutesByFullPath {
   '/connections': typeof HomeConnectionsRoute
   '/create-post': typeof HomeCreatePostRoute
   '/discover': typeof HomeDiscoverRoute
-  '/feed': typeof HomeFeedRoute
   '/messages': typeof HomeMessagesRoute
   '/profile': typeof HomeProfileRoute
   '/': typeof HomeIndexRoute
@@ -79,7 +72,6 @@ export interface FileRoutesByTo {
   '/connections': typeof HomeConnectionsRoute
   '/create-post': typeof HomeCreatePostRoute
   '/discover': typeof HomeDiscoverRoute
-  '/feed': typeof HomeFeedRoute
   '/messages': typeof HomeMessagesRoute
   '/profile': typeof HomeProfileRoute
   '/': typeof HomeIndexRoute
@@ -91,7 +83,6 @@ export interface FileRoutesById {
   '/_home/connections': typeof HomeConnectionsRoute
   '/_home/create-post': typeof HomeCreatePostRoute
   '/_home/discover': typeof HomeDiscoverRoute
-  '/_home/feed': typeof HomeFeedRoute
   '/_home/messages': typeof HomeMessagesRoute
   '/_home/profile': typeof HomeProfileRoute
   '/_home/': typeof HomeIndexRoute
@@ -103,7 +94,6 @@ export interface FileRouteTypes {
     | '/connections'
     | '/create-post'
     | '/discover'
-    | '/feed'
     | '/messages'
     | '/profile'
     | '/'
@@ -113,7 +103,6 @@ export interface FileRouteTypes {
     | '/connections'
     | '/create-post'
     | '/discover'
-    | '/feed'
     | '/messages'
     | '/profile'
     | '/'
@@ -124,7 +113,6 @@ export interface FileRouteTypes {
     | '/_home/connections'
     | '/_home/create-post'
     | '/_home/discover'
-    | '/_home/feed'
     | '/_home/messages'
     | '/_home/profile'
     | '/_home/'
@@ -172,13 +160,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeMessagesRouteImport
       parentRoute: typeof HomeRouteRoute
     }
-    '/_home/feed': {
-      id: '/_home/feed'
-      path: '/feed'
-      fullPath: '/feed'
-      preLoaderRoute: typeof HomeFeedRouteImport
-      parentRoute: typeof HomeRouteRoute
-    }
     '/_home/discover': {
       id: '/_home/discover'
       path: '/discover'
@@ -207,7 +188,6 @@ interface HomeRouteRouteChildren {
   HomeConnectionsRoute: typeof HomeConnectionsRoute
   HomeCreatePostRoute: typeof HomeCreatePostRoute
   HomeDiscoverRoute: typeof HomeDiscoverRoute
-  HomeFeedRoute: typeof HomeFeedRoute
   HomeMessagesRoute: typeof HomeMessagesRoute
   HomeProfileRoute: typeof HomeProfileRoute
   HomeIndexRoute: typeof HomeIndexRoute
@@ -217,7 +197,6 @@ const HomeRouteRouteChildren: HomeRouteRouteChildren = {
   HomeConnectionsRoute: HomeConnectionsRoute,
   HomeCreatePostRoute: HomeCreatePostRoute,
   HomeDiscoverRoute: HomeDiscoverRoute,
-  HomeFeedRoute: HomeFeedRoute,
   HomeMessagesRoute: HomeMessagesRoute,
   HomeProfileRoute: HomeProfileRoute,
   HomeIndexRoute: HomeIndexRoute,
