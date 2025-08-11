@@ -106,7 +106,7 @@ const menuItems = [
 	},
 	{
 		label: "Profile",
-		to: "/profile",
+		to: "/account/profile",
 		icon: (
 			<svg
 				xmlns='http://www.w3.org/2000/svg'

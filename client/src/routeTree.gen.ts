@@ -12,11 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteRouteImport } from './routes/_home/route'
 import { Route as HomeIndexRouteImport } from './routes/_home/index'
-import { Route as HomeProfileRouteImport } from './routes/_home/profile'
 import { Route as HomeMessagesRouteImport } from './routes/_home/messages'
 import { Route as HomeDiscoverRouteImport } from './routes/_home/discover'
-import { Route as HomeCreatePostRouteImport } from './routes/_home/create-post'
 import { Route as HomeConnectionsRouteImport } from './routes/_home/connections'
+import { Route as HomePostNewRouteImport } from './routes/_home/post.new'
+import { Route as HomeAccountProfileRouteImport } from './routes/_home/account.profile'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -32,11 +32,6 @@ const HomeIndexRoute = HomeIndexRouteImport.update({
   path: '/',
   getParentRoute: () => HomeRouteRoute,
 } as any)
-const HomeProfileRoute = HomeProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => HomeRouteRoute,
-} as any)
 const HomeMessagesRoute = HomeMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
@@ -47,75 +42,80 @@ const HomeDiscoverRoute = HomeDiscoverRouteImport.update({
   path: '/discover',
   getParentRoute: () => HomeRouteRoute,
 } as any)
-const HomeCreatePostRoute = HomeCreatePostRouteImport.update({
-  id: '/create-post',
-  path: '/create-post',
-  getParentRoute: () => HomeRouteRoute,
-} as any)
 const HomeConnectionsRoute = HomeConnectionsRouteImport.update({
   id: '/connections',
   path: '/connections',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomePostNewRoute = HomePostNewRouteImport.update({
+  id: '/post/new',
+  path: '/post/new',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeAccountProfileRoute = HomeAccountProfileRouteImport.update({
+  id: '/account/profile',
+  path: '/account/profile',
   getParentRoute: () => HomeRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/connections': typeof HomeConnectionsRoute
-  '/create-post': typeof HomeCreatePostRoute
   '/discover': typeof HomeDiscoverRoute
   '/messages': typeof HomeMessagesRoute
-  '/profile': typeof HomeProfileRoute
   '/': typeof HomeIndexRoute
+  '/account/profile': typeof HomeAccountProfileRoute
+  '/post/new': typeof HomePostNewRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/connections': typeof HomeConnectionsRoute
-  '/create-post': typeof HomeCreatePostRoute
   '/discover': typeof HomeDiscoverRoute
   '/messages': typeof HomeMessagesRoute
-  '/profile': typeof HomeProfileRoute
   '/': typeof HomeIndexRoute
+  '/account/profile': typeof HomeAccountProfileRoute
+  '/post/new': typeof HomePostNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_home': typeof HomeRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/_home/connections': typeof HomeConnectionsRoute
-  '/_home/create-post': typeof HomeCreatePostRoute
   '/_home/discover': typeof HomeDiscoverRoute
   '/_home/messages': typeof HomeMessagesRoute
-  '/_home/profile': typeof HomeProfileRoute
   '/_home/': typeof HomeIndexRoute
+  '/_home/account/profile': typeof HomeAccountProfileRoute
+  '/_home/post/new': typeof HomePostNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/login'
     | '/connections'
-    | '/create-post'
     | '/discover'
     | '/messages'
-    | '/profile'
     | '/'
+    | '/account/profile'
+    | '/post/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/connections'
-    | '/create-post'
     | '/discover'
     | '/messages'
-    | '/profile'
     | '/'
+    | '/account/profile'
+    | '/post/new'
   id:
     | '__root__'
     | '/_home'
     | '/login'
     | '/_home/connections'
-    | '/_home/create-post'
     | '/_home/discover'
     | '/_home/messages'
-    | '/_home/profile'
     | '/_home/'
+    | '/_home/account/profile'
+    | '/_home/post/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -146,13 +146,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeIndexRouteImport
       parentRoute: typeof HomeRouteRoute
     }
-    '/_home/profile': {
-      id: '/_home/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof HomeProfileRouteImport
-      parentRoute: typeof HomeRouteRoute
-    }
     '/_home/messages': {
       id: '/_home/messages'
       path: '/messages'
@@ -167,13 +160,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeDiscoverRouteImport
       parentRoute: typeof HomeRouteRoute
     }
-    '/_home/create-post': {
-      id: '/_home/create-post'
-      path: '/create-post'
-      fullPath: '/create-post'
-      preLoaderRoute: typeof HomeCreatePostRouteImport
-      parentRoute: typeof HomeRouteRoute
-    }
     '/_home/connections': {
       id: '/_home/connections'
       path: '/connections'
@@ -181,25 +167,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeConnectionsRouteImport
       parentRoute: typeof HomeRouteRoute
     }
+    '/_home/post/new': {
+      id: '/_home/post/new'
+      path: '/post/new'
+      fullPath: '/post/new'
+      preLoaderRoute: typeof HomePostNewRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/_home/account/profile': {
+      id: '/_home/account/profile'
+      path: '/account/profile'
+      fullPath: '/account/profile'
+      preLoaderRoute: typeof HomeAccountProfileRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
   }
 }
 
 interface HomeRouteRouteChildren {
   HomeConnectionsRoute: typeof HomeConnectionsRoute
-  HomeCreatePostRoute: typeof HomeCreatePostRoute
   HomeDiscoverRoute: typeof HomeDiscoverRoute
   HomeMessagesRoute: typeof HomeMessagesRoute
-  HomeProfileRoute: typeof HomeProfileRoute
   HomeIndexRoute: typeof HomeIndexRoute
+  HomeAccountProfileRoute: typeof HomeAccountProfileRoute
+  HomePostNewRoute: typeof HomePostNewRoute
 }
 
 const HomeRouteRouteChildren: HomeRouteRouteChildren = {
   HomeConnectionsRoute: HomeConnectionsRoute,
-  HomeCreatePostRoute: HomeCreatePostRoute,
   HomeDiscoverRoute: HomeDiscoverRoute,
   HomeMessagesRoute: HomeMessagesRoute,
-  HomeProfileRoute: HomeProfileRoute,
   HomeIndexRoute: HomeIndexRoute,
+  HomeAccountProfileRoute: HomeAccountProfileRoute,
+  HomePostNewRoute: HomePostNewRoute,
 }
 
 const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(

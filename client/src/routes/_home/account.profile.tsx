@@ -10,12 +10,12 @@ import { cn } from "@/lib/utils";
 
 import { EditProfile } from "./-components/edit-profile";
 
-export const Route = createFileRoute("/_home/profile")({
+export const Route = createFileRoute("/_home/account/profile")({
 	component: Profile,
 	loader: ({ context }) => {
 		return context.queryClient.ensureQueryData(
 			userQueries.posts(context.auth.user.id)
-		);
+		)
 	},
 });
 
@@ -69,20 +69,20 @@ function Profile() {
 												{user?.name}
 											</h1>
 											<svg
-												xmlns='http://www.w3.org/2000/svg'
+												xmlns="http://www.w3.org/2000/svg"
 												width={24}
 												height={24}
-												viewBox='0 0 24 24'
-												fill='none'
-												stroke='currentColor'
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
 												strokeWidth={2}
-												strokeLinecap='round'
-												strokeLinejoin='round'
+												strokeLinecap="round"
+												strokeLinejoin="round"
 												className='lucide lucide-badge-check w-6 h-6 text-blue-500'
-												aria-hidden='true'
+												aria-hidden="true"
 											>
 												<path d='M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z' />
-												<path d='m9 12 2 2 4-4' />
+												<path d="m9 12 2 2 4-4" />
 											</svg>
 										</div>
 										<p className='text-gray-600'>@{user?.username}</p>
@@ -100,14 +100,14 @@ function Profile() {
 											xmlns='http://www.w3.org/2000/svg'
 											width={24}
 											height={24}
-											viewBox='0 0 24 24'
-											fill='none'
-											stroke='currentColor'
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
 											strokeWidth={2}
-											strokeLinecap='round'
-											strokeLinejoin='round'
+											strokeLinecap="round"
+											strokeLinejoin="round"
 											className='lucide lucide-map-pin w-4 h-4'
-											aria-hidden='true'
+											aria-hidden="true"
 										>
 											<path d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0' />
 											<circle cx={12} cy={10} r={3} />
@@ -119,22 +119,22 @@ function Profile() {
 											xmlns='http://www.w3.org/2000/svg'
 											width={24}
 											height={24}
-											viewBox='0 0 24 24'
-											fill='none'
-											stroke='currentColor'
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
 											strokeWidth={2}
-											strokeLinecap='round'
-											strokeLinejoin='round'
+											strokeLinecap="round"
+											strokeLinejoin="round"
 											className='lucide lucide-calendar w-4 h-4'
-											aria-hidden='true'
+											aria-hidden="true"
 										>
-											<path d='M8 2v4' />
-											<path d='M16 2v4' />
+											<path d="M8 2v4" />
+											<path d="M16 2v4" />
 											<rect width={18} height={18} x={3} y={4} rx={2} />
-											<path d='M3 10h18' />
+											<path d="M3 10h18" />
 										</svg>
 										Joined{" "}
-										<span className='font-medium'>
+										<span className="font-medium">
 											{timeAgo(user?.createdAt!)}
 										</span>
 									</span>
@@ -198,5 +198,5 @@ function Profile() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }

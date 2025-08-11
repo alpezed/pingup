@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export const Route = createFileRoute("/_home/create-post")({
+export const Route = createFileRoute("/_home/post/new")({
 	component: CreatePost,
 });
 
