@@ -20,18 +20,25 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { authClient } from "@/lib/auth-client";
 import { profileSchema, type Profile } from "@/schema/profile.schema";
+import { updateProfile } from "@/services/user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export function EditProfile() {
+	const queryClient = useQueryClient();
 	const { data: session } = authClient.useSession();
 	const [open, setOpen] = useState(false);
 	const [previewProfileImage, setPreviewProfileImage] = useState<
 		string | null
 	>();
 	const [previewCoverImage, setPreviewCoverImage] = useState<string | null>();
+
+	const { mutateAsync: updateProfileMutation } = useMutation({
+		mutationFn: updateProfile,
+	});
 
 	const form = useForm<Profile>({
 		resolver: zodResolver(profileSchema),
@@ -47,12 +54,11 @@ export function EditProfile() {
 
 	useEffect(() => {
 		if (session) {
-			console.log({ session });
 			form.reset({
-				name: session.user.name ?? "",
-				username: session.user.username ?? "",
-				bio: session.user.bio ?? "",
-				location: session.user.location ?? "",
+				name: session.user.name,
+				username: session.user.username,
+				bio: session.user.bio,
+				location: session.user.location,
 			});
 			setPreviewProfileImage(session.user?.image);
 			setPreviewCoverImage(session.user?.cover_photo);
@@ -64,8 +70,6 @@ export function EditProfile() {
 	) => {
 		const files = Array.from(e.target.files || []);
 		if (!files.length) return;
-
-		form.setValue("image", files[0]);
 
 		const reader = new FileReader();
 		reader.readAsDataURL(files[0]);
@@ -79,8 +83,6 @@ export function EditProfile() {
 	) => {
 		const files = Array.from(e.target.files || []);
 		if (!files.length) return;
-
-		form.setValue("cover", files[0]);
 
 		const reader = new FileReader();
 		reader.readAsDataURL(files[0]);
@@ -97,8 +99,12 @@ export function EditProfile() {
 		formData.append("location", data.location);
 		if (data.image) formData.append("image", data.image);
 		if (data.cover) formData.append("cover", data.cover);
-		// await updateProfile(formData);
-		console.log(data);
+		await updateProfileMutation(formData, {
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ["user"] });
+				setOpen(false);
+			},
+		});
 	};
 
 	return (
@@ -134,18 +140,18 @@ export function EditProfile() {
 										{...form.register("image", {
 											onChange: e => {
 												handleProfileUpload(e);
-												form.setValue("image", e.target.files);
+												form.setValue("image", e.target.files?.[0] || null);
 											},
 										})}
 									/>
 									<div className='group/profile relative'>
 										<UserAvatar
 											user={{
-												_id: session?.user.id!,
-												name: session?.user.name!,
-												email: session?.user.email!,
-												username: session?.user.username!,
-												image: session?.user.image!,
+												_id: session?.user.id,
+												name: session?.user.name,
+												email: session?.user.email,
+												username: session?.user.username,
+												image: previewProfileImage ?? session?.user.image,
 											}}
 											className='w-24 h-24 text-5xl mt-2'
 										/>
@@ -185,7 +191,7 @@ export function EditProfile() {
 										{...form.register("cover", {
 											onChange: e => {
 												handleCoverPhotoUpload(e);
-												form.setValue("cover", e.target.files);
+												form.setValue("cover", e.target.files?.[0] || null);
 											},
 										})}
 									/>

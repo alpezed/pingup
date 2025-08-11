@@ -26,11 +26,11 @@ export function UserAvatar({
 	user,
 	className,
 }: {
-	user: Author;
+	user: Partial<Author>;
 	className?: string;
 }) {
 	if (!user.image) {
-		const str = user._id || user.email || user.name;
+		const str = user._id || user.email || user.name || "";
 		let hash = 0;
 		for (let i = 0; i < str.length; i++) {
 			hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -43,14 +43,14 @@ export function UserAvatar({
 					className
 				)}
 			>
-				{user.name.charAt(0).toUpperCase()}
+				{user.name?.charAt(0).toUpperCase()}
 			</div>
 		);
 	}
 
 	return (
 		<img
-			alt="profile"
+			alt='profile'
 			className={cn("w-10 h-10 rounded-full shadow object-cover", className)}
 			src={user.image}
 		/>

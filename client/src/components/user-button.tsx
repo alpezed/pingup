@@ -20,7 +20,11 @@ export default function UserButton({
 			<div
 				className={cn("w-8 h-8 rounded-full overflow-hidden", avatarClassName)}
 			>
-				<img src={user.image} alt={user.username} className='object-cover' />
+				<img
+					src={user.image ?? ""}
+					alt={user.username}
+					className='object-cover'
+				/>
 			</div>
 			<div className='flex flex-col'>
 				<h1 className='font-medium'>{user.name}</h1>

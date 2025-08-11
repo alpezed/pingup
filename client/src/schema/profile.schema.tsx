@@ -1,9 +1,5 @@
 import { z } from "zod";
 
-const fileSchema = z
-	.instanceof(File)
-	.refine(file => file.size > 0, "File is required");
-
 export const profileSchema = z.object({
 	name: z.string().min(1, {
 		message: "Name is required",
@@ -13,8 +9,8 @@ export const profileSchema = z.object({
 	}),
 	bio: z.string(),
 	location: z.string(),
-	image: fileSchema.nullable(),
-	cover: fileSchema.nullable(),
+	image: z.any().nullable(),
+	cover: z.any().nullable(),
 });
 
 export type Profile = z.infer<typeof profileSchema>;
