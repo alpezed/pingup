@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/use-auth";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 
 export default function UserButton({
 	className,
