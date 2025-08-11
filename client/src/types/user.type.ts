@@ -3,13 +3,14 @@ export interface User {
 	email: string;
 	emailVerified: boolean;
 	image: string;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 	role: string;
 	username: string;
 	cover_photo: string;
 	bio: string;
 	location: string;
-	following: string[];
+	followers?: string[];
+	following?: string[];
 	id: string;
 }
