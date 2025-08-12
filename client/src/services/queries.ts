@@ -1,6 +1,6 @@
 import { authClient } from "@/lib/auth-client";
 import { posts as fetchPosts, post as fetchPost } from "@/services/post";
-import { posts as fetchUserPosts } from "@/services/user";
+import { posts as fetchUserPosts, users as fetchUsers } from "@/services/user";
 import { queryOptions } from "@tanstack/react-query";
 
 export const authQueries = {
@@ -34,5 +34,10 @@ export const userQueries = {
 		queryOptions({
 			queryKey: ["posts", userId],
 			queryFn: () => fetchUserPosts(userId),
+		}),
+	users: () =>
+		queryOptions({
+			queryKey: ["users"],
+			queryFn: () => fetchUsers(),
 		}),
 };

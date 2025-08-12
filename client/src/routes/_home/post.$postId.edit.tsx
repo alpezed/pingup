@@ -13,9 +13,8 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 
 export const Route = createFileRoute("/_home/post/$postId/edit")({
 	component: EditPost,
-	loader: ({ context, params }) => {
-		return context.queryClient.ensureQueryData(postQueries.post(params.postId));
-	},
+	loader: ({ context, params }) =>
+		context.queryClient.ensureQueryData(postQueries.post(params.postId)),
 });
 
 function EditPost() {
