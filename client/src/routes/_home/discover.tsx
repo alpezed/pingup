@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_home/discover")({
 });
 
 function RouteComponent() {
-	const { data: user } = useSuspenseQuery(userQueries.users());
+	const { data: users } = useSuspenseQuery(userQueries.users());
 
 	return (
 		<div className='max-w-6xl mx-auto p-6'>
@@ -35,7 +35,9 @@ function RouteComponent() {
 				</div>
 			</div>
 			<div className='flex flex-wrap gap-6'>
-				<DiscoverPeople users={user} />
+				{users.map(user => (
+					<DiscoverPeople key={user.id} user={user} />
+				))}
 			</div>
 		</div>
 	);

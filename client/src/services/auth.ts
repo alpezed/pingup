@@ -24,9 +24,8 @@ export async function getMe() {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		credentials: "include", // This automatically includes cookies
+		credentials: "include",
 	});
-	// if (!result.ok) throw new Error("Not authenticated");
 	return result.json();
 }
 
@@ -40,4 +39,24 @@ export async function logout() {
 	});
 	if (!result.ok) throw new Error("Logout failed");
 	return result.json();
+}
+
+export async function follow(isFollow: boolean, userId: string) {
+	const result = await fetch(
+		`${import.meta.env.VITE_API_URL}/users/${userId}/${isFollow ? "follow" : "unfollow"}`,
+		{
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			credentials: "include",
+		}
+	);
+
+	if (!result.ok) {
+		const error = await result.json();
+		throw new Error(error.message);
+	}
+
+	const response = (await result.json()) as APIResponse<unknown>;
+
+	return response;
 }
