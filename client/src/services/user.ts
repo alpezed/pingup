@@ -32,7 +32,7 @@ export async function updateProfile(input: FormData) {
 		throw new Error(error.message);
 	}
 
-	const response = (await result.json()) as APIResponse<any>;
+	const response = (await result.json()) as APIResponse<Profile>;
 
 	return response;
 }

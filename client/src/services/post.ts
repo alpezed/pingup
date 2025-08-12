@@ -48,3 +48,23 @@ export async function addPost(payload: FormData) {
 
 	return response;
 }
+
+export async function updatePost(postId: string, payload: FormData) {
+	const result = await fetch(
+		`${import.meta.env.VITE_API_URL}/posts/${postId}`,
+		{
+			method: "PUT",
+			credentials: "include",
+			body: payload,
+		}
+	);
+
+	if (!result.ok) {
+		const error = await result.json();
+		throw new Error(error.message);
+	}
+
+	const response = (await result.json()) as APIResponse<Post>;
+
+	return response;
+}

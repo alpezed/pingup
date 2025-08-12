@@ -10,7 +10,7 @@ import Like from "../models/like.schema.js";
 export const uploadPostImages = upload.array("images", 100);
 
 export const imageKitImages = catchAsync(async (req, res, next) => {
-	let images;
+	let images = [];
 
 	if (req.files && req.files.length > 0) {
 		const uploadResults = await Promise.allSettled(
@@ -34,6 +34,15 @@ export const imageKitImages = catchAsync(async (req, res, next) => {
 		images = uploadResults
 			.filter(result => result.status === "fulfilled")
 			.map(result => result.value);
+	}
+
+	// Handle URLs sent as fields (FormData sends strings)
+	if (req.body.images) {
+		const existingUrls = Array.isArray(req.body.images)
+			? req.body.images
+			: [req.body.images];
+
+		images.push(...existingUrls.filter(url => /^https?:\/\//.test(url)));
 	}
 
 	req.postImages = images;
@@ -102,6 +111,8 @@ export const getPost = catchAsync(async (req, res, next) => {
 
 export const updatePost = catchAsync(async (req, res) => {
 	const { body } = req.body;
+
+	console.log("--postImages", req.postImages);
 
 	const updatedPost = await Post.findByIdAndUpdate(
 		req.params.id,

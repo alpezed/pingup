@@ -1,8 +1,10 @@
 import { z } from "zod";
 
+const FileType = typeof File !== "undefined" ? z.file() : z.any();
+
 export const createPostSchema = z.object({
 	body: z.string(),
-	images: z.array(z.file()),
+	images: z.array(z.union([z.url(), FileType])),
 });
 
 export const authorSchema = z.object({
