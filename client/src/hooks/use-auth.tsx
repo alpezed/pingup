@@ -1,9 +1,12 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { login, logout } from "@/services/auth";
 import { authQueries } from "@/services/queries";
 import type { User } from "@/types/user.type";
+import { useRouter } from "@tanstack/react-router";
 
 export function useAuth() {
+	const router = useRouter();
+	const queryClient = useQueryClient();
 	const { data: user } = useQuery(authQueries.user());
 
 	const { mutateAsync: loginMutation, isSuccess } = useMutation({
@@ -20,7 +23,8 @@ export function useAuth() {
 
 	const logoutHandler = async () => {
 		await logoutMutation();
-		window.location.href = "/login";
+		await queryClient.invalidateQueries();
+		router.invalidate();
 	};
 
 	return {
