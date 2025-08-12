@@ -15,6 +15,28 @@ export async function users() {
 	return response;
 }
 
+export async function user(userId: string, key: "username" | "id" = "id") {
+	const result = await fetch(
+		`${import.meta.env.VITE_API_URL}/users/${key === "username" ? "account/" : ""}${userId}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include",
+		}
+	);
+
+	if (!result.ok) {
+		const error = await result.json();
+		throw new Error(error.message);
+	}
+
+	const response = (await result.json()) as APIResponse<User>;
+
+	return response;
+}
+
 export async function posts(userId: string) {
 	const result = await fetch(
 		`${import.meta.env.VITE_API_URL}/users/${userId}/posts`,

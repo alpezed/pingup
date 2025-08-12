@@ -1,9 +1,14 @@
+import { queryOptions } from "@tanstack/react-query";
+
 import { authClient } from "@/lib/auth-client";
 import { posts as fetchPosts, post as fetchPost } from "@/services/post";
-import { posts as fetchUserPosts, users as fetchUsers } from "@/services/user";
+import {
+	posts as fetchUserPosts,
+	users as fetchUsers,
+	user as fetchUser,
+} from "@/services/user";
 import type { APIResponse } from "@/types/api-response";
 import type { User } from "@/types/user.type";
-import { queryOptions } from "@tanstack/react-query";
 
 export const authQueries = {
 	user: () =>
@@ -42,6 +47,11 @@ export const userQueries = {
 			queryKey: ["users"],
 			queryFn: () => fetchUsers(),
 			select: (data: APIResponse<User[]>) =>
-				data.data.map(user => ({ ...user, id: user._id })),
+				data.data.map(user => ({ ...user })),
+		}),
+	user: (userId: string, key: "username" | "id" = "id") =>
+		queryOptions({
+			queryKey: ["users", userId],
+			queryFn: () => fetchUser(userId, key),
 		}),
 };

@@ -16,6 +16,7 @@ import {
 	getAllUsers,
 	getMe,
 	getUserById,
+	getUserByUsername,
 	removeFollower,
 	unFollow,
 	updateMe,
@@ -57,6 +58,7 @@ router.put("/:id/follow", addFollower, follow);
 router.put("/:id/unfollow", removeFollower, unFollow);
 
 router.route("/").get(getAllUsers).post(createUser("user"));
+router.route("/account/:username").get(getUserByUsername);
 router.route("/:id").get(getUserById).delete(deleteUser);
 
 export default router;

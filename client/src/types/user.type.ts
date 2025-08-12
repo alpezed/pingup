@@ -1,4 +1,4 @@
-export interface User {
+export interface UserT {
 	name: string;
 	email: string;
 	emailVerified: boolean;
@@ -12,6 +12,12 @@ export interface User {
 	location: string;
 	followers?: string[];
 	following?: string[];
+}
+
+export interface AuthUser extends UserT {
 	id: string;
+}
+
+export interface User extends UserT {
 	_id: string;
 }

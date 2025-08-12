@@ -27,16 +27,11 @@ export const getAllUsers = catchAsync(async (req, res) => {
 export const getUserById = catchAsync(async (req, res) => {
 	const { id } = req.params;
 
-	const user = await auth.api.listUsers({
-		query: {
-			filterField: "id",
-			filterValue: id,
-			limit: 1,
-		},
-		headers: fromNodeHeaders(req.headers),
+	const user = await db.collection("users").findOne({
+		_id: new ObjectId(String(id)),
 	});
 
-	if (!user || user.users.length === 0) {
+	if (!user) {
 		return res.status(404).json({
 			success: false,
 			message: "User not found",
@@ -45,7 +40,27 @@ export const getUserById = catchAsync(async (req, res) => {
 
 	res.status(200).json({
 		success: true,
-		data: user.users[0],
+		data: user,
+	});
+});
+
+export const getUserByUsername = catchAsync(async (req, res) => {
+	const { username } = req.params;
+
+	const user = await db.collection("users").findOne({
+		username,
+	});
+
+	if (!user) {
+		return res.status(404).json({
+			success: false,
+			message: "User not found",
+		});
+	}
+
+	res.status(200).json({
+		success: true,
+		data: user,
 	});
 });
 

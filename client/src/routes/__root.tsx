@@ -17,7 +17,7 @@ export const Route = createRootRouteWithContext<{
 		return {
 			auth: {
 				...auth,
-				user: authUser as User,
+				user: authUser!,
 			},
 			isAuthed: !!authUser,
 		};
@@ -25,7 +25,7 @@ export const Route = createRootRouteWithContext<{
 	component: () => (
 		<>
 			<Outlet />
-			<TanStackRouterDevtools position="bottom-right" />
+			<TanStackRouterDevtools position='bottom-right' />
 			<Toaster />
 		</>
 	),
