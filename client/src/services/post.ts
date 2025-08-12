@@ -68,3 +68,22 @@ export async function updatePost(postId: string, payload: FormData) {
 
 	return response;
 }
+
+export async function deletePost(postId: string): Promise<any> {
+	const result = await fetch(
+		`${import.meta.env.VITE_API_URL}/posts/${postId}`,
+		{
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			credentials: "include",
+		}
+	);
+
+	if (!result.ok) {
+		throw new Error("Error Deleting Post!");
+	}
+
+	return "Deleted post!";
+}

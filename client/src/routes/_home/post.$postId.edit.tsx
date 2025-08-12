@@ -1,6 +1,6 @@
 import UserButton from "@/components/user-button";
 import { type CreatePost } from "@/schema/post.schema";
-import { updatePost } from "@/services/post";
+import { deletePost, updatePost } from "@/services/post";
 import { postQueries } from "@/services/queries";
 import {
 	useMutation,

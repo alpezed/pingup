@@ -112,8 +112,6 @@ export const getPost = catchAsync(async (req, res, next) => {
 export const updatePost = catchAsync(async (req, res) => {
 	const { body } = req.body;
 
-	console.log("--postImages", req.postImages);
-
 	const updatedPost = await Post.findByIdAndUpdate(
 		req.params.id,
 		{
