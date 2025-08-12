@@ -86,7 +86,7 @@ export function DiscoverPeopleSkeleton() {
 				<Skeleton className='w-50 h-4 rounded-full' />
 				<Skeleton className='w-30 h-4 rounded-full' />
 			</div>
-			<div className='flex items-center text-xs gap-2 mb-1'>
+			<div className='flex items-center text-xs gap-2 mb-2'>
 				<Skeleton className='w-20 h-6 rounded-full' />
 				<Skeleton className='w-18 h-6 rounded-full' />
 			</div>

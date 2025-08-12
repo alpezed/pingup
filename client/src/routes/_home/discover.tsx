@@ -40,7 +40,7 @@ function RouteComponent() {
 			<div className='flex flex-wrap gap-6'>
 				{isFetching ? (
 					<>
-						{Array.from({ length: 5 }).map((_, i) => (
+						{Array.from({ length: 6 }).map((_, i) => (
 							<DiscoverPeopleSkeleton key={i} />
 						))}
 					</>
