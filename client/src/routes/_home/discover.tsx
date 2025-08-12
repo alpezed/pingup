@@ -1,4 +1,7 @@
-import { DiscoverPeople } from "@/routes/_home/-components/discover-people";
+import {
+	DiscoverPeople,
+	DiscoverPeopleSkeleton,
+} from "@/routes/_home/-components/discover-people";
 import { userQueries } from "@/services/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -11,7 +14,7 @@ export const Route = createFileRoute("/_home/discover")({
 });
 
 function RouteComponent() {
-	const { data: users } = useSuspenseQuery(userQueries.users());
+	const { data: users, isFetching } = useSuspenseQuery(userQueries.users());
 
 	return (
 		<div className='max-w-6xl mx-auto p-6'>
@@ -35,9 +38,19 @@ function RouteComponent() {
 				</div>
 			</div>
 			<div className='flex flex-wrap gap-6'>
-				{users.map(user => (
-					<DiscoverPeople key={user.id} user={user} />
-				))}
+				{isFetching ? (
+					<>
+						{Array.from({ length: 5 }).map((_, i) => (
+							<DiscoverPeopleSkeleton key={i} />
+						))}
+					</>
+				) : (
+					<>
+						{users?.map(user => (
+							<DiscoverPeople key={user._id} user={user} />
+						))}
+					</>
+				)}
 			</div>
 		</div>
 	);

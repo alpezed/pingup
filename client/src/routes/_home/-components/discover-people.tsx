@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { follow } from "@/services/auth";
 import type { User } from "@/types/user.type";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function DiscoverPeople({ user }: { user: User }) {
 	const { data: session, refetch: refetchSession } = authClient.useSession();
@@ -67,6 +68,31 @@ export function DiscoverPeople({ user }: { user: User }) {
 				<Button size='lg' variant='outline' disabled={isFollowing}>
 					{following ? <MessageCircle /> : <Plus className='text-slate-500' />}
 				</Button>
+			</div>
+		</div>
+	);
+}
+
+export function DiscoverPeopleSkeleton() {
+	return (
+		<div className='flex flex-col items-center gap-3 px-4 pt-6 pb-4 shadow rounded-lg bg-white w-2xs'>
+			<Skeleton className='w-16 h-16 rounded-full' />
+			<div className='flex flex-col items-center gap-1'>
+				<Skeleton className='w-28 h-4 rounded-full' />
+				<Skeleton className='w-10 h-4 rounded-full' />
+			</div>
+			<div className='flex flex-col items-center gap-1 mb-2'>
+				<Skeleton className='w-40 h-4 rounded-full' />
+				<Skeleton className='w-50 h-4 rounded-full' />
+				<Skeleton className='w-30 h-4 rounded-full' />
+			</div>
+			<div className='flex items-center text-xs gap-2 mb-1'>
+				<Skeleton className='w-20 h-6 rounded-full' />
+				<Skeleton className='w-18 h-6 rounded-full' />
+			</div>
+			<div className='mt-auto flex gap-2 w-full'>
+				<Skeleton className='w-full h-10 rounded-lg' />
+				<Skeleton className='w-16 h-10 rounded-lg' />
 			</div>
 		</div>
 	);
