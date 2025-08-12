@@ -96,7 +96,7 @@ export function EditProfile() {
 		formData.append("name", data.name);
 		formData.append("username", data.username);
 		formData.append("bio", data.bio);
-		formData.append("location", data.location);
+		formData.append("location", data.location!);
 		if (data.image) formData.append("image", data.image);
 		if (data.cover) formData.append("cover", data.cover);
 		await updateProfileMutation(formData, {
@@ -110,33 +110,33 @@ export function EditProfile() {
 	return (
 		<Dialog open={open}>
 			<button
-				className='flex items-center gap-2 border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium transition-colors mt-4 md:mt-0 cursor-pointer'
+				className="flex items-center gap-2 border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium transition-colors mt-4 md:mt-0 cursor-pointer"
 				onClick={() => setOpen(true)}
 			>
 				<Edit size={16} />
 				Edit
 			</button>
-			<DialogContent className='sm:max-w-2xl bg-white rounded-lg shadow p-6 my-6'>
+			<DialogContent className="sm:max-w-2xl bg-white rounded-lg shadow p-6 my-6">
 				<DialogHeader>
-					<DialogTitle className='text-2xl font-semibold text-gray-900 mb-2'>
+					<DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">
 						Edit profile
 					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>
-						<div className='space-y-4'>
-							<div className='flex flex-col items-start gap-3'>
+						<div className="space-y-4">
+							<div className="flex flex-col items-start gap-3">
 								<label
-									htmlFor='profile_picture'
-									className='block text-sm font-medium text-gray-700 mb-1'
+									htmlFor="profile_picture"
+									className="block text-sm font-medium text-gray-700 mb-1"
 								>
 									Profile Picture
 									<input
-										className='w-full p-3 border border-gray-200 rounded-lg'
-										id='profile_picture'
+										className="w-full p-3 border border-gray-200 rounded-lg"
+										id="profile_picture"
 										hidden
-										accept='image/*'
-										type='file'
+										accept="image/*"
+										type="file"
 										{...form.register("image", {
 											onChange: e => {
 												handleProfileUpload(e);
@@ -144,7 +144,7 @@ export function EditProfile() {
 											},
 										})}
 									/>
-									<div className='group/profile relative'>
+									<div className="group/profile relative">
 										<UserAvatar
 											user={{
 												_id: session?.user.id,
@@ -153,41 +153,41 @@ export function EditProfile() {
 												username: session?.user.username,
 												image: previewProfileImage ?? session?.user.image,
 											}}
-											className='w-24 h-24 text-5xl mt-2'
+											className="w-24 h-24 text-5xl mt-2"
 										/>
-										<div className='absolute hidden group-hover/profile:flex top-0 left-0 right-0 bottom-0 bg-black/20 rounded-full items-center justify-center'>
+										<div className="absolute hidden group-hover/profile:flex top-0 left-0 right-0 bottom-0 bg-black/20 rounded-full items-center justify-center">
 											<svg
-												xmlns='http://www.w3.org/2000/svg'
+												xmlns="http://www.w3.org/2000/svg"
 												width={24}
 												height={24}
-												viewBox='0 0 24 24'
-												fill='none'
-												stroke='currentColor'
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
 												strokeWidth={2}
-												strokeLinecap='round'
-												strokeLinejoin='round'
-												className='lucide lucide-pencil w-5 h-5 text-white'
-												aria-hidden='true'
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												className="lucide lucide-pencil w-5 h-5 text-white"
+												aria-hidden="true"
 											>
-												<path d='M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z' />
-												<path d='m15 5 4 4' />
+												<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+												<path d="m15 5 4 4" />
 											</svg>
 										</div>
 									</div>
 								</label>
 							</div>
-							<div className='flex flex-col items-start gap-3'>
+							<div className="flex flex-col items-start gap-3">
 								<label
-									htmlFor='cover_photo'
-									className='block text-sm font-medium text-gray-700 mb-1'
+									htmlFor="cover_photo"
+									className="block text-sm font-medium text-gray-700 mb-1"
 								>
 									Cover Photo
 									<input
-										className='w-full p-3 border border-gray-200 rounded-lg'
-										id='cover_photo'
+										className="w-full p-3 border border-gray-200 rounded-lg"
+										id="cover_photo"
 										hidden
-										accept='image/*'
-										type='file'
+										accept="image/*"
+										type="file"
 										{...form.register("cover", {
 											onChange: e => {
 												handleCoverPhotoUpload(e);
@@ -195,31 +195,31 @@ export function EditProfile() {
 											},
 										})}
 									/>
-									<div className='group/cover relative '>
+									<div className="group/cover relative ">
 										{previewCoverImage ? (
 											<img
 												src={previewCoverImage}
-												className='w-80 h-40 rounded-lg object-cover mt-2'
+												className="w-80 h-40 rounded-lg object-cover mt-2"
 											/>
 										) : (
-											<img className='w-80 h-40 rounded-lg bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 object-cover mt-2' />
+											<img className="w-80 h-40 rounded-lg bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 object-cover mt-2" />
 										)}
-										<div className='absolute hidden group-hover/cover:flex top-0 left-0 right-0 bottom-0 bg-black/20 rounded-lg items-center justify-center'>
+										<div className="absolute hidden group-hover/cover:flex top-0 left-0 right-0 bottom-0 bg-black/20 rounded-lg items-center justify-center">
 											<svg
-												xmlns='http://www.w3.org/2000/svg'
+												xmlns="http://www.w3.org/2000/svg"
 												width={24}
 												height={24}
-												viewBox='0 0 24 24'
-												fill='none'
-												stroke='currentColor'
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
 												strokeWidth={2}
-												strokeLinecap='round'
-												strokeLinejoin='round'
-												className='lucide lucide-pencil w-5 h-5 text-white'
-												aria-hidden='true'
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												className="lucide lucide-pencil w-5 h-5 text-white"
+												aria-hidden="true"
 											>
-												<path d='M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z' />
-												<path d='m15 5 4 4' />
+												<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+												<path d="m15 5 4 4" />
 											</svg>
 										</div>
 									</div>
@@ -227,13 +227,13 @@ export function EditProfile() {
 							</div>
 							<FormField
 								control={form.control}
-								name='name'
+								name="name"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Name</FormLabel>
 										<FormControl>
 											<Input
-												placeholder='Please enter your full name'
+												placeholder="Please enter your full name"
 												{...field}
 											/>
 										</FormControl>
@@ -243,12 +243,12 @@ export function EditProfile() {
 							/>
 							<FormField
 								control={form.control}
-								name='username'
+								name="username"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Username</FormLabel>
 										<FormControl>
-											<Input placeholder='Please enter a username' {...field} />
+											<Input placeholder="Please enter a username" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -256,15 +256,15 @@ export function EditProfile() {
 							/>
 							<FormField
 								control={form.control}
-								name='bio'
+								name="bio"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Bio</FormLabel>
 										<FormControl>
 											<Textarea
 												rows={5}
-												placeholder='Please enter a short bio'
-												className='!h-auto resize-none'
+												placeholder="Please enter a short bio"
+												className="!h-auto resize-none"
 												{...field}
 											/>
 										</FormControl>
@@ -286,13 +286,13 @@ export function EditProfile() {
 							</div> */}
 							<FormField
 								control={form.control}
-								name='location'
+								name="location"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Location</FormLabel>
 										<FormControl>
 											<Input
-												placeholder='Please enter your location'
+												placeholder="Please enter your location"
 												{...field}
 											/>
 										</FormControl>
@@ -301,12 +301,12 @@ export function EditProfile() {
 								)}
 							/>
 						</div>
-						<DialogFooter className='gap-3 pt-6'>
+						<DialogFooter className="gap-3 pt-6">
 							<DialogClose asChild>
 								<Button
-									type='button'
-									variant='outline'
-									className='text-base h-auto font-normal px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors'
+									type="button"
+									variant="outline"
+									className="text-base h-auto font-normal px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
 									onClick={() => setOpen(false)}
 									disabled={form.formState.isSubmitting}
 								>
@@ -314,8 +314,8 @@ export function EditProfile() {
 								</Button>
 							</DialogClose>
 							<Button
-								type='submit'
-								className='text-base h-auto font-normal px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition cursor-pointer'
+								type="submit"
+								className="text-base h-auto font-normal px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition cursor-pointer"
 								disabled={form.formState.isSubmitting}
 							>
 								Save changes

@@ -8,7 +8,7 @@ export const profileSchema = z.object({
 		message: "Username must be at least 2 characters.",
 	}),
 	bio: z.string(),
-	location: z.string(),
+	location: z.string().optional(),
 	image: z.any().nullable(),
 	cover: z.any().nullable(),
 });
