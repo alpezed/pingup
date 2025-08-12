@@ -13,4 +13,5 @@ export interface User {
 	followers?: string[];
 	following?: string[];
 	id: string;
+	_id: string;
 }
