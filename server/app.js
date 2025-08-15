@@ -19,9 +19,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(
 	cors({
 		origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
-		methods: ['GET', 'POST', 'PUT', 'DELETE'],
-		credentials: true, // Allow cookies to be sent
-		allowedHeaders: ['Content-Type', 'Authorization'],
+		credentials: true,
 	})
 );
 
