@@ -15,8 +15,20 @@ export const auth = betterAuth({
 		secure: process.env.NODE_ENV === 'production',
 		httpOnly: true,
 		sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-		domain: process.env.NODE_ENV === 'production' ? process.env.COOKIE_DOMAIN : undefined,
+		domain: process.env.NODE_ENV === 'production' ? process.env.COOKIE_DOMAIN || '.vercel.app' : undefined,
+		path: '/',
+		maxAge: 60 * 60 * 24 * 7, // 7 days
 	},
+	advanced: {
+		crossSubDomainCookies: {
+			enabled: process.env.NODE_ENV === 'production',
+			domain: process.env.COOKIE_DOMAIN || '.vercel.app',
+		},
+		useSecureCookies: process.env.NODE_ENV === 'production',
+	},
+	trustedOrigins: [
+		process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+	],
 	emailAndPassword: {
 		enabled: true,
 		sendResetPassword: async ({ user, url, token }) => {

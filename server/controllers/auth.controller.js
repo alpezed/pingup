@@ -47,6 +47,7 @@ export const signIn = catchAsync(async (req, res) => {
 		headers,
 		asResponse: true,
 		redirectTo: '/',
+		credentials: 'include',
 	});
 
 	if (result.status === 401) {
@@ -55,10 +56,11 @@ export const signIn = catchAsync(async (req, res) => {
 		});
 	}
 
-	console.log('--auth-result', result);
 
 	// Set the cookies from Better Auth response
 	const cookie = result.headers.get('set-cookie');
+	console.log('--auth-cookie', cookie);
+
 	if (cookie) {
 		res.set('set-cookie', cookie);
 		// Log cookie for debugging
@@ -77,6 +79,7 @@ export const logout = catchAsync(async (req, res) => {
 	const response = await auth.api.signOut({
 		headers: fromNodeHeaders(req.headers),
 		asResponse: true,
+		credentials: 'include',
 	});
 
 	const cookie = response.headers.get('set-cookie');
