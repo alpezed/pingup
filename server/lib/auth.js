@@ -8,9 +8,11 @@ import db from '../config/db.js';
 export const auth = betterAuth({
 	database: mongodbAdapter(db),
 	plugins: [admin()],
+	trustedOrigins: [process.env.CLIENT_ORIGIN],
 	session: {
 		cookie: {
-			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'None',
+			secure: true,
 			httpOnly: true,
 		},
 	},
