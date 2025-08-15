@@ -1,6 +1,6 @@
-import { UserAvatar } from "@/components/avatar";
-import { useAuth } from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
+import { UserAvatar } from '@/components/avatar';
+import { cn } from '@/lib/utils';
+import { useRouteContext } from '@tanstack/react-router';
 
 export default function UserButton({
 	className,
@@ -11,26 +11,21 @@ export default function UserButton({
 	avatarClassName?: string;
 	onClick?: () => void;
 }) {
-	const { user } = useAuth();
+	const { auth } = useRouteContext({ from: '__root__' });
 
 	return (
 		<div
-			className={cn("flex items-center gap-2 text-sm", className)}
+			className={cn('flex items-center gap-2 text-sm', className)}
 			onClick={onClick}
 		>
 			<div
-				className={cn("w-8 h-8 rounded-full overflow-hidden", avatarClassName)}
+				className={cn('w-8 h-8 rounded-full overflow-hidden', avatarClassName)}
 			>
-				{/* <img
-					src={user.image ?? ""}
-					alt={user.username}
-					className="object-cover"
-				/> */}
-				<UserAvatar user={user} className="w-full h-full" />
+				<UserAvatar user={auth.user} className='w-full h-full' />
 			</div>
-			<div className="flex flex-col">
-				<h1 className="font-medium">{user.name}</h1>
-				<p className="text-xs text-gray-500">@{user.username}</p>
+			<div className='flex flex-col'>
+				<h1 className='font-medium'>{auth.user.name}</h1>
+				<p className='text-xs text-gray-500'>@{auth.user.username}</p>
 			</div>
 		</div>
 	);

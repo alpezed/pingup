@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { login, logout } from "@/services/auth";
-import { authQueries } from "@/services/queries";
-import type { User } from "@/types/user.type";
-import { useRouter } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { login, logout } from '@/services/auth';
+import { authQueries } from '@/services/queries';
+import { useRouter } from '@tanstack/react-router';
 
 export function useAuth() {
 	const router = useRouter();
@@ -13,7 +12,7 @@ export function useAuth() {
 		mutationFn: ({ email, password }: { email: string; password: string }) =>
 			login(email, password),
 		onSuccess: () => {
-			window.location.href = "/";
+			window.location.href = '/';
 		},
 	});
 
@@ -28,7 +27,7 @@ export function useAuth() {
 	};
 
 	return {
-		user: user as User,
+		user,
 		login: loginMutation,
 		logout: logoutHandler,
 		isAuthSuccess: isSuccess,
