@@ -1,33 +1,33 @@
-import { APIError } from "better-auth/api";
-import { auth } from "../lib/auth.js";
-import { fromNodeHeaders } from "better-auth/node";
-import { catchAsync } from "../utils/catch-async.js";
+import { APIError } from 'better-auth/api';
+import { auth } from '../lib/auth.js';
+import { fromNodeHeaders } from 'better-auth/node';
+import { catchAsync } from '../utils/catch-async.js';
 
 export const signUp = catchAsync(async (req, res) => {
 	const { name, email, password } = req.body;
-	const username = email.split("@")[0];
+	const username = email.split('@')[0];
 	const data = await auth.api.signUpEmail({
 		body: {
 			name,
 			username,
 			email,
 			password,
-			image: "",
-			callbackURL: "",
+			image: '',
+			callbackURL: '',
 		},
 	});
 	data.user.username = username;
-	data.user.cover_photo = "";
+	data.user.cover_photo = '';
 	if (!data.user) {
 		return res.status(400).json({
 			success: false,
-			message: "Signup unsuccessful",
+			message: 'Signup unsuccessful',
 		});
 	}
 	res.status(201).json({
 		success: true,
 		data,
-		message: "User created successfully",
+		message: 'User created successfully',
 	});
 });
 
@@ -37,8 +37,8 @@ export const signIn = catchAsync(async (req, res) => {
 		headers,
 	});
 	if (session?.user) {
-		throw new APIError("BAD_REQUEST", {
-			message: "User is already logged in",
+		throw new APIError('BAD_REQUEST', {
+			message: 'User is already logged in',
 		});
 	}
 	const { email, password } = req.body;
@@ -46,19 +46,21 @@ export const signIn = catchAsync(async (req, res) => {
 		body: { email, password },
 		headers,
 		asResponse: true,
-		redirectTo: "/",
+		redirectTo: '/',
 	});
 
 	if (result.status === 401) {
-		throw new APIError("UNAUTHORIZED", {
-			message: "Invalid credentials",
+		throw new APIError('UNAUTHORIZED', {
+			message: 'Invalid credentials',
 		});
 	}
 
+	console.log('--auth-result', result);
+
 	// Set the cookies from Better Auth response
-	const cookie = result.headers.get("set-cookie");
+	const cookie = result.headers.get('set-cookie');
 	if (cookie) {
-		res.set("set-cookie", cookie);
+		res.set('set-cookie', cookie);
 	}
 
 	const response = await result.json();
@@ -75,21 +77,21 @@ export const logout = catchAsync(async (req, res) => {
 		asResponse: true,
 	});
 
-	const cookie = response.headers.get("set-cookie");
+	const cookie = response.headers.get('set-cookie');
 	if (cookie) {
-		res.set("set-cookie", cookie);
+		res.set('set-cookie', cookie);
 	}
 
 	res
 		.status(response.status)
-		.json({ success: true, message: "Logged out successfully" });
+		.json({ success: true, message: 'Logged out successfully' });
 });
 
 export const forgotPassword = catchAsync(async (req, res) => {
 	const data = await auth.api.requestPasswordReset({
 		body: {
 			email: req.body.email,
-			redirectTo: "/reset-password",
+			redirectTo: '/reset-password',
 		},
 	});
 	res.status(200).json(data);
