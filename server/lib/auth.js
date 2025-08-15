@@ -8,17 +8,15 @@ import db from '../config/db.js';
 export const auth = betterAuth({
 	database: mongodbAdapter(db),
 	plugins: [admin()],
-	trustedOrigins: [process.env.CLIENT_ORIGIN],
-	session: {
-		cookie: {
-			sameSite: 'None',
-			secure: true,
-			httpOnly: true,
-		},
-	},
 	secret: process.env.BETTER_AUTH_SECRET,
 	appName: 'pingup',
 	baseURL: process.env.BETTER_AUTH_URL,
+	cookie: {
+		secure: process.env.NODE_ENV === 'production',
+		httpOnly: true,
+		sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+		domain: process.env.NODE_ENV === 'production' ? process.env.COOKIE_DOMAIN : undefined,
+	},
 	emailAndPassword: {
 		enabled: true,
 		sendResetPassword: async ({ user, url, token }) => {

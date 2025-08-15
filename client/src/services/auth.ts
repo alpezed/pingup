@@ -7,6 +7,7 @@ export async function login(email: string, password: string) {
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({ email, password }),
 		credentials: "include",
+		mode: "cors",
 	});
 
 	if (!result.ok) {
@@ -25,6 +26,7 @@ export async function getMe() {
 			"Content-Type": "application/json",
 		},
 		credentials: "include",
+		mode: "cors",
 	});
 	return result.json();
 }
@@ -36,6 +38,7 @@ export async function logout() {
 			"Content-Type": "application/json",
 		},
 		credentials: "include",
+		mode: "cors",
 	});
 	if (!result.ok) throw new Error("Logout failed");
 	return result.json();
@@ -48,6 +51,7 @@ export async function follow(isFollow: boolean, userId: string) {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			credentials: "include",
+			mode: "cors",
 		}
 	);
 

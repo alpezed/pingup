@@ -16,4 +16,8 @@ const userInfer = inferAdditionalFields({
 export const authClient = createAuthClient({
 	baseURL: import.meta.env.VITE_API_BASE_URL,
 	plugins: [userInfer],
+	fetchOptions: {
+		credentials: 'include',
+		mode: 'cors',
+	},
 });

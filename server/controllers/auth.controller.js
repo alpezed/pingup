@@ -61,6 +61,8 @@ export const signIn = catchAsync(async (req, res) => {
 	const cookie = result.headers.get('set-cookie');
 	if (cookie) {
 		res.set('set-cookie', cookie);
+		// Log cookie for debugging
+		console.log('Setting cookie:', cookie);
 	}
 
 	const response = await result.json();
@@ -80,6 +82,8 @@ export const logout = catchAsync(async (req, res) => {
 	const cookie = response.headers.get('set-cookie');
 	if (cookie) {
 		res.set('set-cookie', cookie);
+		// Log cookie for debugging
+		console.log('Clearing cookie:', cookie);
 	}
 
 	res
