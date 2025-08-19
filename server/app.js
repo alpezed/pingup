@@ -21,10 +21,6 @@ app.use(
 		origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
 		methods: ['GET', 'POST', 'PUT', 'DELETE'],
 		credentials: true,
-		// allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Accept'],
-		// exposedHeaders: ['set-cookie'],
-		// preflightContinue: false,
-		// optionsSuccessStatus: 204
 	})
 );
 
