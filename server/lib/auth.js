@@ -8,27 +8,22 @@ import db from '../config/db.js';
 export const auth = betterAuth({
 	database: mongodbAdapter(db),
 	plugins: [admin()],
-	secret: process.env.BETTER_AUTH_SECRET,
-	appName: 'pingup',
-	baseURL: process.env.BETTER_AUTH_URL,
-	cookie: {
-		secure: process.env.NODE_ENV === 'production',
-		httpOnly: true,
-		sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-		domain: process.env.NODE_ENV === 'production' ? process.env.COOKIE_DOMAIN || '.vercel.app' : undefined,
-		path: '/',
-		maxAge: 60 * 60 * 24 * 7, // 7 days
-	},
+	trustedOrigins: ['http://localhost:3000', process.env.CLIENT_ORIGIN],
 	advanced: {
 		crossSubDomainCookies: {
-			enabled: process.env.NODE_ENV === 'production',
-			domain: process.env.COOKIE_DOMAIN || '.vercel.app',
+			enabled: true,
+			domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : null,
+		},
+		defaultCookieAttributes: {
+			sameSite: process.env.NODE_ENV !== 'production' ? 'Lax' : 'None',
+			secure: true,
+			partitioned: true,
 		},
 		useSecureCookies: process.env.NODE_ENV === 'production',
 	},
-	trustedOrigins: [
-		process.env.CLIENT_ORIGIN || 'http://localhost:3000',
-	],
+	secret: process.env.BETTER_AUTH_SECRET,
+	appName: 'pingup',
+	baseURL: process.env.BETTER_AUTH_URL,
 	emailAndPassword: {
 		enabled: true,
 		sendResetPassword: async ({ user, url, token }) => {
