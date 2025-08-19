@@ -56,13 +56,13 @@ export const signIn = catchAsync(async (req, res) => {
 		});
 	}
 
-
 	// Set the cookies from Better Auth response
 	const cookie = result.headers.get('set-cookie');
 	console.log('--auth-cookie', cookie);
 
 	if (cookie) {
-		res.set('set-cookie', cookie);
+		res.setHeader('Set-Cookie', cookie.split(/,(?=[^;]+=[^;]+)/));
+		// res.set('set-cookie', cookie);
 		// Log cookie for debugging
 		console.log('Setting cookie:', cookie);
 	}
