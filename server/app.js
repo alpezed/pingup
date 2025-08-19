@@ -5,9 +5,10 @@ import cors from 'cors';
 import { toNodeHandler } from 'better-auth/node';
 import 'dotenv/config';
 
+import { auth } from './lib/auth.js';
 import userRoutes from './routes/user.route.js';
 import postRoutes from './routes/post.route.js';
-import { auth } from './lib/auth.js';
+import storyRoutes from './routes/story.route.js';
 import globalError from './controllers/error.js';
 
 const app = express();
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/posts', postRoutes);
+app.use('/api/v1/stories', storyRoutes);
 
 app.all('*splat', (req, res, next) => {
 	next(

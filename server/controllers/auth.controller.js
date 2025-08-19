@@ -50,6 +50,8 @@ export const signIn = catchAsync(async (req, res) => {
 		credentials: 'include',
 	});
 
+	console.log(result);
+
 	if (result.status === 401) {
 		throw new APIError('UNAUTHORIZED', {
 			message: 'Invalid credentials',
