@@ -9,6 +9,17 @@ export const auth = betterAuth({
 	database: mongodbAdapter(db),
 	plugins: [admin()],
 	trustedOrigins: ['http://localhost:3000', process.env.CLIENT_ORIGIN],
+	advanced: {
+		crossSubDomainCookies: {
+			enabled: true,
+		},
+		defaultCookieAttributes: {
+			sameSite: 'none',
+			secure: true,
+			partitioned: true,
+		},
+		useSecureCookies: process.env.NODE_ENV === 'production',
+	},
 	secret: process.env.BETTER_AUTH_SECRET,
 	appName: 'pingup',
 	baseURL: process.env.BETTER_AUTH_URL,
