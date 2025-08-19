@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import { UserAvatar } from "@/components/avatar";
-import { cn } from "@/lib/utils";
-import { EditProfile } from "@/routes/_home/-components/edit-profile";
-import { UserPosts } from "@/routes/_home/-components/user-posts";
-import type { Post } from "@/schema/post.schema";
-import type { APIResponse } from "@/types/api-response";
-import type { User } from "@/types/user.type";
-import { timeAgo } from "@/utils/dayjs";
+import { UserAvatar } from '@/components/avatar';
+import { cn } from '@/lib/utils';
+import { EditProfile } from '@/routes/_home/-components/edit-profile';
+import { UserPosts } from '@/routes/_home/-components/user-posts';
+import type { Post } from '@/schema/post.schema';
+import type { APIResponse } from '@/types/api-response';
+import type { User } from '@/types/user.type';
+import { timeAgo } from '@/utils/dayjs';
+import { authClient } from '@/lib/auth-client';
 
 const tabs = [
-	{ id: "posts", label: "Posts" },
-	{ id: "media", label: "Media" },
-	{ id: "likes", label: "Likes" },
+	{ id: 'posts', label: 'Posts' },
+	{ id: 'media', label: 'Media' },
+	{ id: 'likes', label: 'Likes' },
 ];
 
 export function UserScreen({
@@ -22,7 +23,8 @@ export function UserScreen({
 	user: User;
 	posts?: APIResponse<Post[]>;
 }) {
-	const [activeTab, setActiveTab] = useState("posts");
+	const { data: session } = authClient.useSession();
+	const [activeTab, setActiveTab] = useState('posts');
 
 	return (
 		<div className='relative h-full overflow-y-scroll bg-gray-50 p-6'>
@@ -79,7 +81,7 @@ export function UserScreen({
 										</div>
 										<p className='text-gray-600'>@{user?.username}</p>
 									</div>
-									<EditProfile />
+									{session?.user.id === user?._id && <EditProfile />}
 								</div>
 								{user?.bio && (
 									<p className='text-gray-700 text-sm max-w-md mt-4'>
@@ -104,7 +106,7 @@ export function UserScreen({
 											<path d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0' />
 											<circle cx={12} cy={10} r={3} />
 										</svg>
-										{user?.location ? user?.location : "Add location"}
+										{user?.location ? user?.location : 'Add location'}
 									</span>
 									<span className='flex items-center gap-1.5'>
 										<svg
@@ -125,7 +127,7 @@ export function UserScreen({
 											<rect width={18} height={18} x={3} y={4} rx={2} />
 											<path d='M3 10h18' />
 										</svg>
-										Joined{" "}
+										Joined{' '}
 										<span className='font-medium'>
 											{timeAgo(user?.createdAt!)}
 										</span>
@@ -168,10 +170,10 @@ export function UserScreen({
 								key={tab.id}
 								onClick={() => setActiveTab(tab.id)}
 								className={cn(
-									"flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer",
+									'flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer',
 									activeTab === tab.id
-										? "bg-indigo-600 text-white"
-										: "text-gray-600 hover:text-gray-900"
+										? 'bg-indigo-600 text-white'
+										: 'text-gray-600 hover:text-gray-900'
 								)}
 							>
 								{tab.label}
@@ -179,11 +181,11 @@ export function UserScreen({
 						))}
 					</div>
 					<div className='mt-6 flex flex-col items-center gap-6'>
-						{activeTab === "posts" && <UserPosts posts={posts?.data} />}
-						{activeTab === "media" && (
+						{activeTab === 'posts' && <UserPosts posts={posts?.data} />}
+						{activeTab === 'media' && (
 							<div className='text-gray-900/50'>No media found!</div>
 						)}
-						{activeTab === "likes" && (
+						{activeTab === 'likes' && (
 							<div className='text-gray-900/50'>No likes!</div>
 						)}
 					</div>
