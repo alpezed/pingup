@@ -12,7 +12,7 @@ export const auth = betterAuth({
 	advanced: {
 		crossSubDomainCookies: {
 			enabled: true,
-			domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : null,
+			domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : null,
 		},
 		defaultCookieAttributes: {
 			sameSite: process.env.NODE_ENV !== 'production' ? 'Lax' : 'None',
