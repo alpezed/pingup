@@ -1,10 +1,8 @@
 import { z } from "zod";
 
-const FileType = typeof File !== "undefined" ? z.file() : z.any();
-
 export const createStorySchema = z.object({
   text: z.string(),
-  medias: z.array(z.union([z.url(), FileType])),
+  medias: z.array(z.file()),
   story_type: z.enum(["text", "media"]),
   background_color: z.string().optional(),
 });

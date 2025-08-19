@@ -1,8 +1,8 @@
-import { queryOptions } from "@tanstack/react-query";
+import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
 import { authClient } from "@/lib/auth-client";
 import { posts as fetchPosts, post as fetchPost } from "@/services/post";
-import { stories as fetchStories, story as fetchStory } from "@/services/story";
+import * as apiStory from "@/services/story";
 import {
   posts as fetchUserPosts,
   users as fetchUsers,
@@ -10,6 +10,7 @@ import {
 } from "@/services/user";
 import type { APIResponse } from "@/types/api-response";
 import type { User } from "@/types/user.type";
+import { queryClient } from "@/main";
 
 export const authQueries = {
   user: () =>
@@ -61,11 +62,21 @@ export const storyQueries = {
   stories: () =>
     queryOptions({
       queryKey: ["stories"],
-      queryFn: () => fetchStories(),
+      queryFn: () => apiStory.stories(),
     }),
   story: (storyId: string) =>
     queryOptions({
       queryKey: ["stories", storyId],
-      queryFn: () => fetchStory(storyId),
+      queryFn: () => apiStory.story(storyId),
+    }),
+  createStory: () =>
+    mutationOptions({
+      mutationFn: (payload: FormData) => apiStory.createStory(payload),
+      onError: (error: Error) => {
+        console.error("Error creating story:", error.message);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["stories"] });
+      },
     }),
 };

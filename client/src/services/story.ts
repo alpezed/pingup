@@ -32,7 +32,7 @@ export async function story(storyId: string) {
   return response;
 }
 
-export async function addStory(payload: FormData) {
+export async function createStory(payload: FormData) {
   const result = await fetch(`${import.meta.env.VITE_API_URL}/stories`, {
     method: "POST",
     credentials: "include",
