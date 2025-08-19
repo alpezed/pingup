@@ -8,6 +8,7 @@ import db from '../config/db.js';
 export const auth = betterAuth({
 	database: mongodbAdapter(db),
 	plugins: [admin()],
+	trustedOrigins: ['http://localhost:3000', process.env.CLIENT_ORIGIN],
 	secret: process.env.BETTER_AUTH_SECRET,
 	appName: 'pingup',
 	baseURL: process.env.BETTER_AUTH_URL,
