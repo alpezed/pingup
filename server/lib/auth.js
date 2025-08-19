@@ -15,7 +15,7 @@ export const auth = betterAuth({
 			domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : null,
 		},
 		defaultCookieAttributes: {
-			sameSite: process.env.NODE_ENV !== 'production' ? 'Lax' : 'None',
+			sameSite: process.env.NODE_ENV === 'production' ? 'Lax' : 'None',
 			secure: true,
 			partitioned: true,
 		},
