@@ -32,15 +32,17 @@ export default function Stories() {
   const { data: stories } = useSuspenseQuery(storyQueries.stories());
 
   return (
-    <div className="w-screen sm:w-[calc(100vw-240px)] lg:max-w-2xl px-4">
-      <div className="flex gap-4 pb-5">
-        <CreateStory />
-        <Carousel className="w-[calc(100%-110px)]">
+    <div className="lg:max-w-[700px] px-4">
+      <div className="pb-5">
+        <Carousel className="w-full">
           <CarouselContent>
+            <CarouselItem className="md:basis-1/3 lg:basis-1/5 h-40">
+              <CreateStory />
+            </CarouselItem>
             {stories.data.map((story) => (
               <CarouselItem
                 key={story._id}
-                className="md:basis-1/3 lg:basis-1/4 h-40"
+                className="md:basis-1/3 lg:basis-1/5 h-40"
               >
                 <StoryItem story={story} />
               </CarouselItem>
