@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_home/connections")({
-	component: Connection,
+  component: Connection,
 });
 
 function Connection() {
-	return <div>Hello "/connections"!</div>;
+  return <div>Hello "/connections"!</div>;
 }

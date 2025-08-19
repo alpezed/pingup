@@ -6,16 +6,16 @@ import { userQueries } from "@/services/queries";
 import { UserScreen } from "./-components/user-screen";
 
 export const Route = createFileRoute("/_home/profile/$username")({
-	component: UserProfile,
-	loader: ({ context, params }) =>
-		context.queryClient.ensureQueryData(
-			userQueries.user(params.username, "username")
-		),
+  component: UserProfile,
+  loader: ({ context, params }) =>
+    context.queryClient.ensureQueryData(
+      userQueries.user(params.username, "username"),
+    ),
 });
 
 function UserProfile() {
-	const { data: user } = Route.useLoaderData();
-	const { data: posts } = useQuery(userQueries.posts(user._id));
+  const { data: user } = Route.useLoaderData();
+  const { data: posts } = useQuery(userQueries.posts(user._id));
 
-	return <UserScreen user={user} posts={posts} />;
+  return <UserScreen user={user} posts={posts} />;
 }

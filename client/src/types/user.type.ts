@@ -1,23 +1,23 @@
 export interface UserT {
-	name: string;
-	email: string;
-	emailVerified: boolean;
-	image?: string | null | undefined;
-	createdAt: Date;
-	updatedAt: Date;
-	role: string;
-	username: string;
-	cover_photo: string;
-	bio: string;
-	location: string;
-	followers?: string[];
-	following?: string[];
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image?: string | null | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+  role: string;
+  username: string;
+  cover_photo: string;
+  bio: string;
+  location: string;
+  followers?: string[];
+  following?: string[];
 }
 
 export interface AuthUser extends UserT {
-	id: string;
+  id: string;
 }
 
 export interface User extends UserT {
-	_id: string;
+  _id: string;
 }

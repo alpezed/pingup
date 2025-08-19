@@ -2,88 +2,88 @@ import type { Post } from "@/schema/post.schema";
 import type { APIResponse } from "@/types/api-response";
 
 export async function posts() {
-	const result = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		credentials: "include",
-	});
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
 
-	const response = (await result.json()) as APIResponse<Post[]>;
+  const response = (await result.json()) as APIResponse<Post[]>;
 
-	return response;
+  return response;
 }
 
 export async function post(postId: string) {
-	const result = await fetch(
-		`${import.meta.env.VITE_API_URL}/posts/${postId}`,
-		{
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include",
-		}
-	);
+  const result = await fetch(
+    `${import.meta.env.VITE_API_URL}/posts/${postId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
 
-	const response = (await result.json()) as APIResponse<Post>;
+  const response = (await result.json()) as APIResponse<Post>;
 
-	return response;
+  return response;
 }
 
 export async function addPost(payload: FormData) {
-	const result = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-		method: "POST",
-		credentials: "include",
-		body: payload,
-	});
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
+    method: "POST",
+    credentials: "include",
+    body: payload,
+  });
 
-	if (!result.ok) {
-		const error = await result.json();
-		throw new Error(error.message);
-	}
+  if (!result.ok) {
+    const error = await result.json();
+    throw new Error(error.message);
+  }
 
-	const response = (await result.json()) as APIResponse<Post>;
+  const response = (await result.json()) as APIResponse<Post>;
 
-	return response;
+  return response;
 }
 
 export async function updatePost(postId: string, payload: FormData) {
-	const result = await fetch(
-		`${import.meta.env.VITE_API_URL}/posts/${postId}`,
-		{
-			method: "PUT",
-			credentials: "include",
-			body: payload,
-		}
-	);
+  const result = await fetch(
+    `${import.meta.env.VITE_API_URL}/posts/${postId}`,
+    {
+      method: "PUT",
+      credentials: "include",
+      body: payload,
+    },
+  );
 
-	if (!result.ok) {
-		const error = await result.json();
-		throw new Error(error.message);
-	}
+  if (!result.ok) {
+    const error = await result.json();
+    throw new Error(error.message);
+  }
 
-	const response = (await result.json()) as APIResponse<Post>;
+  const response = (await result.json()) as APIResponse<Post>;
 
-	return response;
+  return response;
 }
 
 export async function deletePost(postId: string): Promise<any> {
-	const result = await fetch(
-		`${import.meta.env.VITE_API_URL}/posts/${postId}`,
-		{
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			credentials: "include",
-		}
-	);
+  const result = await fetch(
+    `${import.meta.env.VITE_API_URL}/posts/${postId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
 
-	if (!result.ok) {
-		throw new Error("Error Deleting Post!");
-	}
+  if (!result.ok) {
+    throw new Error("Error Deleting Post!");
+  }
 
-	return "Deleted post!";
+  return "Deleted post!";
 }
