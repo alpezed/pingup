@@ -10,16 +10,45 @@ import db from "../config/db.js";
 
 export const getAllUsers = catchAsync(async (req, res) => {
 	const userId = new ObjectId(String(req.user.id));
+
+	// pagination
+	const page = parseInt(req.query.page) || 1;
+	const limit = parseInt(req.query.limit) || 10;
+	const skip = (page - 1) * limit;
+
+	// search filter
+	const search = req.query.search || "";
+
+	const query = {
+		role: "user",
+		_id: { $ne: userId },
+	};
+
+	if (search) {
+		query.$or = [
+			{ name: { $regex: search, $options: "i" } },
+			{ username: { $regex: search, $options: "i" } },
+			{ bio: { $regex: search, $options: "i" } },
+			{ location: { $regex: search, $options: "i" } },
+		];
+	}
+
+	// total count for pagination
+	const total = await db.collection("users").countDocuments(query);
+
 	const users = await db
 		.collection("users")
-		.find({
-			role: "user",
-			_id: { $ne: userId },
-		})
+		.find(query)
+		.skip(skip)
+		.limit(limit)
 		.toArray();
 
 	res.json({
 		success: true,
+		page,
+		limit,
+		total,
+		totalPages: Math.ceil(total / limit),
 		data: users,
 	});
 });
