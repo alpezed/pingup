@@ -6,7 +6,15 @@ import {
 import { storyQueries } from "@/services/queries";
 import { timeAgo } from "@/utils/dayjs";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { AlignLeft, ArrowLeft, Plus, Sparkle, Upload } from "lucide-react";
+import {
+  AlignLeft,
+  ArrowLeft,
+  Image,
+  Plus,
+  Sparkle,
+  Upload,
+  UploadIcon,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +24,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import {
+  Controller,
+  FormProvider,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
@@ -147,78 +160,137 @@ function CreateStory() {
           <DialogTitle>Create Story</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <Textarea
-                {...form.register("text")}
-                placeholder="What's on your mind?"
-                className={cn(
-                  "w-full border-0 !text-4xl p-6 rounded-xl bg-indigo-600 text-white placeholder:text-white/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent h-96",
-                  form.watch("background_color"),
+          <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div>
+                {form.watch("story_type") === "text" && (
+                  <Textarea
+                    {...form.register("text")}
+                    placeholder="What's on your mind?"
+                    className={cn(
+                      "w-full border-0 !text-4xl p-6 rounded-xl bg-indigo-600 text-white placeholder:text-white/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent h-96",
+                      form.watch("background_color"),
+                    )}
+                  />
                 )}
-              />
-            </div>
-            <div className="flex gap-2">
-              {storyColors.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  className={cn(
-                    `w-6 h-6 rounded-full active:scale-105 transition hover:scale-125 border border-white ${color} hover:opacity-80 transition duration-150 cursor-pointer`,
-                    {
-                      "scale-125": form.watch("background_color") === color,
-                    },
-                  )}
-                  onClick={() => form.setValue("background_color", color)}
-                />
-              ))}
-            </div>
-            <ToggleGroup
-              type="single"
-              variant="outline"
-              defaultValue="text"
-              className="w-full gap-3"
-              onValueChange={(value: "media" | "text") => {
-                form.setValue("story_type", value);
-              }}
-            >
-              <ToggleGroupItem
-                value="text"
-                aria-label="Toggle text"
-                className="!rounded disabled:opacity-100 active:scale-95 !border-0 bg-primary transition duration-300 text-white h-10 cursor-pointer font-normal text-base"
-                disabled={form.watch("story_type") === "text"}
+                {form.watch("story_type") === "media" && <MediaUpload />}
+              </div>
+              <div className="flex gap-2">
+                {storyColors.map((color) => (
+                  <button
+                    key={color}
+                    type="button"
+                    className={cn(
+                      `w-6 h-6 rounded-full active:scale-105 transition hover:scale-125 border border-white ${color} hover:opacity-80 transition duration-150 cursor-pointer`,
+                      {
+                        "scale-125": form.watch("background_color") === color,
+                      },
+                    )}
+                    onClick={() => form.setValue("background_color", color)}
+                  />
+                ))}
+              </div>
+              <ToggleGroup
+                type="single"
+                variant="outline"
+                defaultValue="text"
+                className="w-full gap-3"
+                onValueChange={(value: "media" | "text") => {
+                  form.setValue("story_type", value);
+                }}
               >
-                <AlignLeft className="h-4 w-4" />
-                Text
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="media"
-                aria-label="Toggle upload"
-                className="!rounded !border-0 disabled:opacity-100 active:scale-95 bg-primary transition duration-300 text-white h-10 cursor-pointer font-normal text-base"
-                disabled={form.watch("story_type") === "media"}
-              >
-                <Upload className="h-4 w-4" />
-                <span>Photo/Video</span>
-              </ToggleGroupItem>
-            </ToggleGroup>
-            <DialogFooter>
-              <Button
-                type="submit"
-                className="text-base w-full h-12 font-normal px-4 py-2  text-white rounded-lg disabled:opacity-95 hover:from-indigo-600 hover:to-purple-700 transition cursor-pointer disabled:bg-gray-500"
-                disabled={
-                  form.formState.isSubmitting ||
-                  (form.watch("story_type") === "media" &&
-                    !form.watch("medias")?.length) ||
-                  (form.watch("story_type") === "text" && !form.watch("text"))
-                }
-              >
-                <Sparkle size={20} className="!w-4.5 !h-4.5" />
-                Create Story
-              </Button>
-            </DialogFooter>
-          </form>
+                <ToggleGroupItem
+                  value="text"
+                  aria-label="Toggle text"
+                  className="!rounded disabled:opacity-100 active:scale-95 !border-0 bg-primary transition duration-300 text-white h-10 cursor-pointer font-normal text-base"
+                  disabled={form.watch("story_type") === "text"}
+                >
+                  <AlignLeft className="h-4 w-4" />
+                  Text
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="media"
+                  aria-label="Toggle upload"
+                  className="!rounded !border-0 disabled:opacity-100 active:scale-95 bg-primary transition duration-300 text-white h-10 cursor-pointer font-normal text-base"
+                  disabled={form.watch("story_type") === "media"}
+                >
+                  <Upload className="h-4 w-4" />
+                  <span>Photo/Video</span>
+                </ToggleGroupItem>
+              </ToggleGroup>
+              <DialogFooter>
+                <Button
+                  type="submit"
+                  className="text-base w-full h-12 font-normal px-4 py-2 disabled:text-white/60 text-white rounded-lg disabled:opacity-95 hover:from-indigo-600 hover:to-purple-700 transition cursor-pointer disabled:bg-gray-500"
+                  disabled={
+                    form.formState.isSubmitting ||
+                    (form.watch("story_type") === "media" &&
+                      !form.watch("medias")?.length) ||
+                    (form.watch("story_type") === "text" && !form.watch("text"))
+                  }
+                >
+                  <Sparkle size={20} className="!w-4.5 !h-4.5" />
+                  Create Story
+                </Button>
+              </DialogFooter>
+            </form>
+          </FormProvider>
         </DialogDescription>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function MediaUpload() {
+  const { control, register } = useFormContext();
+  const [previewImage, setPreviewImage] = useState("");
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onloadend = () => {
+      setPreviewImage(reader.result as string);
+    };
+  };
+
+  if (previewImage) {
+    return (
+      <div className="h-96 w-full rounded-lg flex items-center justify-center bg-gray-50 relative overflow-hidden">
+        <img src={previewImage} className="h-full w-full object-cover" />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <label
+        htmlFor="medias"
+        className="gap-2 text-sm text-white hover:text-gray-700 transition cursor-pointer h-96 w-full border-dashed border-2 border-gray-300 rounded-lg flex items-center justify-center bg-indigo-600 relative overflow-hidden"
+      >
+        <Image size={100} className="text-white/80" />
+      </label>
+      <Controller
+        control={control}
+        name="medias"
+        render={({ field: { onChange, value } }) => {
+          return (
+            <input
+              {...register(`medias`)}
+              id="medias"
+              accept="image/*"
+              type="file"
+              onChange={(e) => {
+                handleUpload(e);
+                onChange([...Array.from(e.target.files!)]);
+              }}
+              className="sr-only"
+            />
+          );
+        }}
+      />
+    </>
   );
 }
