@@ -1,12 +1,12 @@
-import fs from 'fs';
-import { APIError } from 'better-auth/api';
+import fs from "fs";
+import { APIError } from "better-auth/api";
 
-import { catchAsync } from '../utils/catch-async.js';
-import Story from '../models/story.model.js';
-import imagekit from '../config/imagekit.js';
-import { upload } from '../config/multer.js';
+import { catchAsync } from "../utils/catch-async.js";
+import Story from "../models/story.model.js";
+import imagekit from "../config/imagekit.js";
+import { upload } from "../config/multer.js";
 
-export const uploadStoryMedias = upload.array('medias', 100);
+export const uploadStoryMedias = upload.array("medias", 100);
 
 export const imageKitImages = catchAsync(async (req, res, next) => {
 	let medias = [];
@@ -22,16 +22,16 @@ export const imageKitImages = catchAsync(async (req, res, next) => {
 				return imagekit.url({
 					path: uploaded.filePath,
 					transformation: [
-						{ width: '500' },
-						{ quality: 'auto' },
-						{ format: 'webp' },
+						{ width: "500" },
+						{ quality: "auto" },
+						{ format: "webp" },
 					],
 				});
 			})
 		);
 
 		medias = uploadResults
-			.filter(result => result.status === 'fulfilled')
+			.filter(result => result.status === "fulfilled")
 			.map(result => result.value);
 	}
 
@@ -54,7 +54,7 @@ export const createStory = catchAsync(async (req, res) => {
 	if (!text && req.files.length === 0) {
 		return res.status(400).json({
 			success: false,
-			message: 'Story body is required',
+			message: "Story body is required",
 		});
 	}
 
@@ -64,7 +64,7 @@ export const createStory = catchAsync(async (req, res) => {
 		user: req.user.id,
 	});
 
-	if (story_type === 'text') {
+	if (story_type === "text") {
 		newStory.background_color = background_color;
 	} else {
 		newStory.media_url = req.medias;
@@ -103,14 +103,14 @@ export const getStory = catchAsync(async (req, res, next) => {
 
 	if (!story) {
 		return next(
-			new APIError('NOT_FOUND', {
-				message: 'Story not found!',
+			new APIError("NOT_FOUND", {
+				message: "Story not found!",
 			})
 		);
 	}
 
 	res.json({
-		status: 'success',
+		status: "success",
 		data: story,
 	});
 });
@@ -131,7 +131,7 @@ export const updateStory = catchAsync(async (req, res) => {
 	);
 
 	res.status(200).json({
-		status: 'success',
+		status: "success",
 		data: updatedStory,
 	});
 });
@@ -141,11 +141,11 @@ export const deleteStory = catchAsync(async (req, res) => {
 
 	if (!story) {
 		return next(
-			new APIError('NOT_FOUND', { message: 'No story found with that ID' })
+			new APIError("NOT_FOUND", { message: "No story found with that ID" })
 		);
 	}
 
 	res.status(204).json({
-		status: 'success',
+		status: "success",
 	});
 });

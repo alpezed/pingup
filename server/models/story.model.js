@@ -1,6 +1,6 @@
-import { ObjectId } from 'mongodb';
-import mongoose from 'mongoose';
-import db from '../config/db.js';
+import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
+import db from "../config/db.js";
 
 const storySchema = new mongoose.Schema(
 	{
@@ -9,12 +9,12 @@ const storySchema = new mongoose.Schema(
 		},
 		story_type: {
 			type: String,
-			enum: ['text', 'media'],
-			default: 'text',
+			enum: ["text", "media"],
+			default: "text",
 		},
 		background_color: {
 			type: String,
-			default: '#ffffff',
+			default: "#ffffff",
 		},
 		media_url: [{ type: String }],
 		likes: [
@@ -25,7 +25,7 @@ const storySchema = new mongoose.Schema(
 		comments: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Comment',
+				ref: "Comment",
 			},
 		],
 		user: {
@@ -38,7 +38,7 @@ const storySchema = new mongoose.Schema(
 
 // Methods for manual population with String IDs
 storySchema.statics.findWithUser = async function (filter, options = {}) {
-	const stories = await this.find(filter);
+	const stories = await this.find(filter).sort({ createdAt: -1 });
 
 	if (options.populateUser) {
 		// Get all unique user IDs
@@ -46,7 +46,7 @@ storySchema.statics.findWithUser = async function (filter, options = {}) {
 
 		// Fetch all users in one query
 		const users = await db
-			.collection('users')
+			.collection("users")
 			.find(
 				{ _id: { $in: userIds.map(id => new ObjectId(id)) } },
 				{ projection: { name: 1, username: 1, email: 1, image: 1, _id: 1 } }
@@ -78,7 +78,7 @@ storySchema.statics.findOneWithUser = async function (filter, options = {}) {
 
 	if (options.populateUser) {
 		const user = await db
-			.collection('users')
+			.collection("users")
 			.findOne(
 				{ _id: new ObjectId(story.user) },
 				{ projection: { username: 1, email: 1, name: 1, _id: 1, image: 1 } }
@@ -97,7 +97,7 @@ storySchema.statics.findOneWithUser = async function (filter, options = {}) {
 storySchema.query.populateUser = async function () {
 	const query = await this.findOne();
 
-	const storyUser = await db.collection('users').findOne(
+	const storyUser = await db.collection("users").findOne(
 		{ _id: new ObjectId(query._doc.user) },
 		{
 			projection: { username: 1, email: 1, name: 1, _id: 1, image: 1 },
@@ -110,6 +110,6 @@ storySchema.query.populateUser = async function () {
 	};
 };
 
-const Story = mongoose.model('Story', storySchema);
+const Story = mongoose.model("Story", storySchema);
 
 export default Story;
