@@ -3,14 +3,17 @@ import type { Profile } from "@/schema/profile.schema";
 import type { APIResponse } from "@/types/api-response";
 import type { User } from "@/types/user.type";
 
-export async function users() {
-  const result = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+export async function users(query?: any) {
+  const result = await fetch(
+    `${import.meta.env.VITE_API_URL}/users${query ? `?${query}` : ""}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     },
-    credentials: "include",
-  });
+  );
   const response = (await result.json()) as APIResponse<User[]>;
   return response;
 }

@@ -44,13 +44,30 @@ export const userQueries = {
       queryKey: ["posts", userId],
       queryFn: () => fetchUserPosts(userId),
     }),
-  users: () =>
-    queryOptions({
-      queryKey: ["users"],
-      queryFn: () => fetchUsers(),
+  users: (query?: { search: string; page: number; limit: number }) => {
+    const params = new URLSearchParams();
+
+    if (query) {
+      // add ? to the beginning of the query string
+      if (query.search) params.append("search", query.search);
+      if (query.page) params.append("page", query.page.toString());
+      if (query.limit) params.append("limit", query.limit.toString());
+    }
+
+    return queryOptions({
+      queryKey: ["users", params.toString()],
+      queryFn: () => fetchUsers(params.toString()),
       select: (data: APIResponse<User[]>) =>
         data.data.map((user) => ({ ...user })),
-    }),
+    });
+
+    // return queryOptions({
+    //   queryKey: ["users", query],
+    //   queryFn: () => fetchUsers(query),
+    //   select: (data: APIResponse<User[]>) =>
+    //     data.data.map((user) => ({ ...user })),
+    // });
+  },
   user: (userId: string, key: "username" | "id" = "id") =>
     queryOptions({
       queryKey: ["users", userId],

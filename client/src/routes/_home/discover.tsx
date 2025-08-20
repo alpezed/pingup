@@ -1,20 +1,32 @@
+import { useDebounce } from "@/hooks/use-debounce";
 import {
   DiscoverPeople,
   DiscoverPeopleSkeleton,
 } from "@/routes/_home/-components/discover-people";
 import { userQueries } from "@/services/queries";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { Search, UserX } from "lucide-react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/_home/discover")({
   component: RouteComponent,
-  loader: ({ context }) =>
-    context.queryClient.ensureQueryData(userQueries.users()),
 });
 
 function RouteComponent() {
-  const { data: users, isFetching } = useSuspenseQuery(userQueries.users());
+  const [page] = useState(1);
+  const [limit] = useState(10);
+  const [search, setSearch] = useState("");
+
+  const debouncedSearch = useDebounce(search, 500);
+
+  const { data: users, isFetching } = useQuery(
+    userQueries.users({
+      page,
+      limit,
+      search: encodeURIComponent(debouncedSearch),
+    }),
+  );
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -33,6 +45,7 @@ function RouteComponent() {
             <input
               placeholder="Search people by name, username, bio, or location..."
               className="pl-10 sm:pl-12 py-2 w-full border border-gray-300 rounded-md max-sm:text-sm"
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
         </div>
@@ -46,6 +59,12 @@ function RouteComponent() {
           </>
         ) : (
           <>
+            {users?.length === 0 && (
+              <div className="text-slate-400 text-center w-full">
+                <UserX className="w-8 h-8 mx-auto mb-2 text-slate-400 stroke-1.5" />
+                No users found
+              </div>
+            )}
             {users?.map((user) => (
               <DiscoverPeople key={user._id} user={user} />
             ))}
