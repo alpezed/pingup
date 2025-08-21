@@ -13,7 +13,6 @@ import {
   Plus,
   Sparkle,
   Upload,
-  UploadIcon,
 } from "lucide-react";
 import {
   Dialog,
@@ -275,7 +274,7 @@ function MediaUpload() {
       <Controller
         control={control}
         name="medias"
-        render={({ field: { onChange, value } }) => {
+        render={({ field: { onChange } }) => {
           return (
             <input
               {...register(`medias`)}
