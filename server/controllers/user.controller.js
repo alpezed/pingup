@@ -7,6 +7,7 @@ import { catchAsync } from "../utils/catch-async.js";
 import { auth } from "../lib/auth.js";
 import imagekit from "../config/imagekit.js";
 import db from "../config/db.js";
+import Connection from "../models/connection.schema.js";
 
 export const getAllUsers = catchAsync(async (req, res) => {
 	const userId = new ObjectId(String(req.user.id));
@@ -306,5 +307,44 @@ export const unFollow = catchAsync(async (req, res) => {
 
 	res.status(201).json({
 		success: true,
+	});
+});
+
+export const addConnection = catchAsync(async (req, res) => {
+	// check if user has sent more than 20 requests in the last 24 hours
+	const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+	const requestsCount = await Connection.countDocuments({
+		from_id: req.user.id,
+		to_id: req.body.id,
+		createdAt: { $gt: twentyFourHoursAgo },
+	});
+
+	if (requestsCount > 20) {
+		res.status(400).json({
+			success: false,
+			message: "You have sent too many requests in the last 24 hours",
+		});
+	}
+
+	const connection = await Connection.isConnected();
+	if (!connection) {
+		await Connection.create({ from_id: req.user.id, to_id: req.body.id });
+
+		res.status(201).json({
+			success: true,
+			message: "Connection request sent",
+		});
+	}
+
+	if (connection.status === "accepted") {
+		res.status(200).json({
+			success: true,
+			message: "You are already connected",
+		});
+	}
+
+	res.status(200).json({
+		success: true,
+		message: `You have a pending connection request`,
 	});
 });
