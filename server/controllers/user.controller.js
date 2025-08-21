@@ -1,13 +1,13 @@
-import fs from "fs";
-import { fromNodeHeaders } from "better-auth/node";
-import { ObjectId } from "mongodb";
-import { APIError } from "better-auth/api";
+import fs from 'fs';
+import { fromNodeHeaders } from 'better-auth/node';
+import { ObjectId } from 'mongodb';
+import { APIError } from 'better-auth/api';
 
-import { catchAsync } from "../utils/catch-async.js";
-import { auth } from "../lib/auth.js";
-import imagekit from "../config/imagekit.js";
-import db from "../config/db.js";
-import Connection from "../models/connection.schema.js";
+import { catchAsync } from '../utils/catch-async.js';
+import { auth } from '../lib/auth.js';
+import imagekit from '../config/imagekit.js';
+import db from '../config/db.js';
+import Connection from '../models/connection.model.js';
 
 export const getAllUsers = catchAsync(async (req, res) => {
 	const userId = new ObjectId(String(req.user.id));
@@ -18,27 +18,27 @@ export const getAllUsers = catchAsync(async (req, res) => {
 	const skip = (page - 1) * limit;
 
 	// search filter
-	const search = req.query.search || "";
+	const search = req.query.search || '';
 
 	const query = {
-		role: "user",
+		role: 'user',
 		_id: { $ne: userId },
 	};
 
 	if (search) {
 		query.$or = [
-			{ name: { $regex: search, $options: "i" } },
-			{ username: { $regex: search, $options: "i" } },
-			{ bio: { $regex: search, $options: "i" } },
-			{ location: { $regex: search, $options: "i" } },
+			{ name: { $regex: search, $options: 'i' } },
+			{ username: { $regex: search, $options: 'i' } },
+			{ bio: { $regex: search, $options: 'i' } },
+			{ location: { $regex: search, $options: 'i' } },
 		];
 	}
 
 	// total count for pagination
-	const total = await db.collection("users").countDocuments(query);
+	const total = await db.collection('users').countDocuments(query);
 
 	const users = await db
-		.collection("users")
+		.collection('users')
 		.find(query)
 		.skip(skip)
 		.limit(limit)
@@ -57,14 +57,14 @@ export const getAllUsers = catchAsync(async (req, res) => {
 export const getUserById = catchAsync(async (req, res) => {
 	const { id } = req.params;
 
-	const user = await db.collection("users").findOne({
+	const user = await db.collection('users').findOne({
 		_id: new ObjectId(String(id)),
 	});
 
 	if (!user) {
 		return res.status(404).json({
 			success: false,
-			message: "User not found",
+			message: 'User not found',
 		});
 	}
 
@@ -77,14 +77,14 @@ export const getUserById = catchAsync(async (req, res) => {
 export const getUserByUsername = catchAsync(async (req, res) => {
 	const { username } = req.params;
 
-	const user = await db.collection("users").findOne({
+	const user = await db.collection('users').findOne({
 		username,
 	});
 
 	if (!user) {
 		return res.status(404).json({
 			success: false,
-			message: "User not found",
+			message: 'User not found',
 		});
 	}
 
@@ -101,10 +101,10 @@ export const getMe = catchAsync(async (req, res) => {
 	});
 });
 
-export const createUser = (role = "user") =>
+export const createUser = (role = 'user') =>
 	catchAsync(async (req, res) => {
 		const { name, email, password } = req.body;
-		const username = email.split("@")[0];
+		const username = email.split('@')[0];
 		const newUser = await auth.api.createUser({
 			body: {
 				email,
@@ -113,8 +113,8 @@ export const createUser = (role = "user") =>
 				role,
 				data: {
 					username,
-					image: "",
-					cover_photo: "",
+					image: '',
+					cover_photo: '',
 					followers: [],
 					following: [],
 				},
@@ -151,9 +151,9 @@ export const updateMe = catchAsync(async (req, res) => {
 		const imageUrl = await imagekit.url({
 			path: image.filePath,
 			transformation: [
-				{ width: "500" },
-				{ quality: "auto" },
-				{ format: "webp" },
+				{ width: '500' },
+				{ quality: 'auto' },
+				{ format: 'webp' },
 			],
 		});
 
@@ -169,9 +169,9 @@ export const updateMe = catchAsync(async (req, res) => {
 		const imageUrl = await imagekit.url({
 			path: image.filePath,
 			transformation: [
-				{ width: "1280" },
-				{ quality: "auto" },
-				{ format: "webp" },
+				{ width: '1280' },
+				{ quality: 'auto' },
+				{ format: 'webp' },
 			],
 		});
 
@@ -218,7 +218,7 @@ export const deleteUser = catchAsync(async (req, res) => {
 });
 
 export const addFollower = catchAsync(async (req, res, next) => {
-	const followingUser = await db.collection("users").updateOne(
+	const followingUser = await db.collection('users').updateOne(
 		{
 			_id: new ObjectId(String(req.params.id)),
 		},
@@ -228,8 +228,8 @@ export const addFollower = catchAsync(async (req, res, next) => {
 	);
 
 	if (followingUser.matchedCount === 0) {
-		throw new APIError("NOT_FOUND", {
-			message: "User to follow not found",
+		throw new APIError('NOT_FOUND', {
+			message: 'User to follow not found',
 		});
 	}
 
@@ -240,16 +240,16 @@ export const follow = catchAsync(async (req, res) => {
 	const headers = fromNodeHeaders(req.headers);
 
 	if (!ObjectId.isValid(req.params.id)) {
-		throw new APIError("BAD_REQUEST", {
-			message: "Invalid ID",
+		throw new APIError('BAD_REQUEST', {
+			message: 'Invalid ID',
 		});
 	}
 
 	const currentFollowing = req.user?.following ?? [];
 
 	if (currentFollowing.includes(req.params.id)) {
-		throw new APIError("BAD_REQUEST", {
-			message: "You already followed the user",
+		throw new APIError('BAD_REQUEST', {
+			message: 'You already followed the user',
 		});
 	}
 
@@ -270,7 +270,7 @@ export const follow = catchAsync(async (req, res) => {
 });
 
 export const removeFollower = catchAsync(async (req, res, next) => {
-	await db.collection("users").updateOne(
+	await db.collection('users').updateOne(
 		{
 			_id: new ObjectId(String(req.params.id)),
 		},
@@ -283,16 +283,16 @@ export const removeFollower = catchAsync(async (req, res, next) => {
 
 export const unFollow = catchAsync(async (req, res) => {
 	if (!ObjectId.isValid(req.params.id)) {
-		throw new APIError("BAD_REQUEST", {
-			message: "Invalid ID",
+		throw new APIError('BAD_REQUEST', {
+			message: 'Invalid ID',
 		});
 	}
 
 	const currentFollowing = req.user?.following ?? [];
 
 	if (!currentFollowing.includes(req.params.id)) {
-		throw new APIError("BAD_REQUEST", {
-			message: "You are not following this user.",
+		throw new APIError('BAD_REQUEST', {
+			message: 'You are not following this user.',
 		});
 	}
 
@@ -322,7 +322,7 @@ export const addConnection = catchAsync(async (req, res) => {
 	if (requestsCount > 20) {
 		res.status(400).json({
 			success: false,
-			message: "You have sent too many requests in the last 24 hours",
+			message: 'You have sent too many requests in the last 24 hours',
 		});
 	}
 
@@ -332,14 +332,14 @@ export const addConnection = catchAsync(async (req, res) => {
 
 		res.status(201).json({
 			success: true,
-			message: "Connection request sent",
+			message: 'Connection request sent',
 		});
 	}
 
-	if (connection.status === "accepted") {
+	if (connection.status === 'accepted') {
 		res.status(200).json({
 			success: true,
-			message: "You are already connected",
+			message: 'You are already connected',
 		});
 	}
 

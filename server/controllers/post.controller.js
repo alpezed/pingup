@@ -1,13 +1,13 @@
-import fs from "fs";
-import { APIError } from "better-auth/api";
+import fs from 'fs';
+import { APIError } from 'better-auth/api';
 
-import { catchAsync } from "../utils/catch-async.js";
-import Post from "../models/post.model.js";
-import imagekit from "../config/imagekit.js";
-import { upload } from "../config/multer.js";
-import Like from "../models/like.schema.js";
+import { catchAsync } from '../utils/catch-async.js';
+import Post from '../models/post.model.js';
+import imagekit from '../config/imagekit.js';
+import { upload } from '../config/multer.js';
+import Like from '../models/like.model.js';
 
-export const uploadPostImages = upload.array("images", 100);
+export const uploadPostImages = upload.array('images', 100);
 
 export const imageKitImages = catchAsync(async (req, res, next) => {
 	let images = [];
@@ -23,16 +23,16 @@ export const imageKitImages = catchAsync(async (req, res, next) => {
 				return imagekit.url({
 					path: uploaded.filePath,
 					transformation: [
-						{ width: "700" },
-						{ quality: "auto" },
-						{ format: "webp" },
+						{ width: '700' },
+						{ quality: 'auto' },
+						{ format: 'webp' },
 					],
 				});
 			})
 		);
 
 		images = uploadResults
-			.filter(result => result.status === "fulfilled")
+			.filter(result => result.status === 'fulfilled')
 			.map(result => result.value);
 	}
 
@@ -55,7 +55,7 @@ export const createPost = catchAsync(async (req, res) => {
 	if (!body && req.files.length === 0) {
 		return res.status(400).json({
 			success: false,
-			message: "Post body is required",
+			message: 'Post body is required',
 		});
 	}
 
@@ -97,14 +97,14 @@ export const getPost = catchAsync(async (req, res, next) => {
 
 	if (!post) {
 		return next(
-			new APIError("NOT_FOUND", {
-				message: "Post not found!",
+			new APIError('NOT_FOUND', {
+				message: 'Post not found!',
 			})
 		);
 	}
 
 	res.json({
-		status: "success",
+		status: 'success',
 		data: post,
 	});
 });
@@ -125,7 +125,7 @@ export const updatePost = catchAsync(async (req, res) => {
 	);
 
 	res.status(200).json({
-		status: "success",
+		status: 'success',
 		data: updatedPost,
 	});
 });
@@ -135,20 +135,20 @@ export const deletePost = catchAsync(async (req, res) => {
 
 	if (!post) {
 		return next(
-			new APIError("NOT_FOUND", { message: "No post found with that ID" })
+			new APIError('NOT_FOUND', { message: 'No post found with that ID' })
 		);
 	}
 
 	res.status(204).json({
-		status: "success",
+		status: 'success',
 	});
 });
 
 export const addLike = catchAsync(async (req, res, next) => {
 	if (await Like.hasLiked(req.user.id, req.params.postId)) {
 		return next(
-			new APIError("CONFLICT", {
-				message: "User has already liked this post",
+			new APIError('CONFLICT', {
+				message: 'User has already liked this post',
 			})
 		);
 	}
@@ -167,7 +167,7 @@ export const likePost = catchAsync(async (req, res) => {
 	);
 
 	res.status(200).json({
-		status: "success",
+		status: 'success',
 		data: post,
 	});
 });
@@ -187,6 +187,6 @@ export const unLikePost = catchAsync(async (req, res) => {
 		{ new: true }
 	);
 	res.status(200).json({
-		status: "success",
+		status: 'success',
 	});
 });
