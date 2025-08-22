@@ -44,9 +44,9 @@ function Connection() {
           Manage your network and discover new connections
         </p>
       </div>
-      <div className="flex gap-6 mb-8">
+      <div className="flex flex-wrap gap-6 mb-8">
         {connectionsTabs.map((tab) => (
-          <div className="shadow-md w-40 h-20 flex flex-col items-center justify-center text-base rounded-md border border-slate-200/60 bg-white/80">
+          <div className="shadow w-40 h-20 flex flex-col items-center justify-center text-base rounded-md border border-slate-200/60 bg-white/80">
             <div className="text-black">2</div>
             <div className="text-slate-600">{tab.label}</div>
           </div>
@@ -60,12 +60,12 @@ function Connection() {
 function ConnectionTabs() {
   return (
     <Tabs defaultValue={connectionsTabs.at(0)?.value} className="w-full gap-6">
-      <TabsList className="shadow-md py-1 text-base rounded-md border border-slate-200/60 bg-white/80">
+      <TabsList className="shadow h-auto py-1 flex-wrap text-base rounded-sm border border-slate-200/60 bg-white/80">
         {connectionsTabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="flex border-0 text-base font-normal cursor-pointer items-center transition gap-1 h-7 data-[state=active]:text-black active:text-black hover:text-black px-3 text-slate-500 !shadow-none"
+            className="flex grow-0 border-0 text-base font-normal cursor-pointer items-center transition gap-1 h-7 data-[state=active]:text-black active:text-black hover:text-black px-3 text-slate-500 !shadow-none"
           >
             <tab.icon size={16} />
             {tab.label}
