@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+import { mongoose } from 'mongoose';
 
 const connectionSchema = new mongoose.Schema(
 	{
@@ -12,8 +12,8 @@ const connectionSchema = new mongoose.Schema(
 		},
 		status: {
 			type: String,
-			enum: ["pending", "accepted", "rejected"],
-			default: "pending",
+			enum: ['pending', 'accepted'],
+			default: 'pending',
 		},
 	},
 	{
@@ -27,11 +27,20 @@ connectionSchema.statics.isConnected = async function (fromId, toId) {
 	const connection = await this.exists({
 		from_id: fromId,
 		to_id: toId,
-		status: "accepted",
+		status: 'accepted',
 	});
 	return connection;
 };
 
-const Connection = mongoose.model("Connection", connectionSchema);
+connectionSchema.statics.hasPendingRequest = async function (fromId, toId) {
+	const connection = await this.exists({
+		from_id: fromId,
+		to_id: toId,
+		status: 'pending',
+	});
+	return connection;
+};
+
+const Connection = mongoose.model('Connection', connectionSchema);
 
 export default Connection;
