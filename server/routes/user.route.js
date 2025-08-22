@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 
 import {
 	forgotPassword,
@@ -6,7 +6,7 @@ import {
 	signIn,
 	signUp,
 	resetPassword,
-} from "../controllers/auth.controller.js";
+} from '../controllers/auth.controller.js';
 import {
 	addFollower,
 	createUser,
@@ -14,6 +14,8 @@ import {
 	deleteUser,
 	follow,
 	getAllUsers,
+	getFollowers,
+	getFollowing,
 	getMe,
 	getUserById,
 	getUserByUsername,
@@ -21,44 +23,46 @@ import {
 	unFollow,
 	updateMe,
 	updatePassword,
-} from "../controllers/user.controller.js";
-import { protect, restrictTo } from "../middleware/auth.middleware.js";
-import { upload } from "../config/multer.js";
-import postRoutes from "./post.route.js";
+} from '../controllers/user.controller.js';
+import { protect, restrictTo } from '../middleware/auth.middleware.js';
+import { upload } from '../config/multer.js';
+import postRoutes from './post.route.js';
 
 const router = express.Router();
 
-router.use("/:userId/posts", postRoutes);
+router.use('/:userId/posts', postRoutes);
 
-router.post("/signup", signUp);
-router.post("/login", signIn);
-router.post("/logout", logout);
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
+router.post('/signup', signUp);
+router.post('/login', signIn);
+router.post('/logout', logout);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 router.use(protect);
 
 router.post(
-	"/create-admin",
-	restrictTo("admin", "superadmin"),
-	createUser("admin")
+	'/create-admin',
+	restrictTo('admin', 'superadmin'),
+	createUser('admin')
 );
-router.put("/update-password", updatePassword);
-router.get("/me", getMe);
-router.delete("/delete-me", deleteMe);
+router.put('/update-password', updatePassword);
+router.get('/me', getMe);
+router.delete('/delete-me', deleteMe);
 router.put(
-	"/update-me",
+	'/update-me',
 	upload.fields([
-		{ name: "image", maxCount: 1 },
-		{ name: "cover", maxCount: 1 },
+		{ name: 'image', maxCount: 1 },
+		{ name: 'cover', maxCount: 1 },
 	]),
 	updateMe
 );
-router.put("/:id/follow", addFollower, follow);
-router.put("/:id/unfollow", removeFollower, unFollow);
+router.put('/:id/follow', addFollower, follow);
+router.put('/:id/unfollow', removeFollower, unFollow);
+router.get('/:id/followers', getFollowers);
+router.get('/:id/following', getFollowing);
 
-router.route("/").get(getAllUsers).post(createUser("user"));
-router.route("/account/:username").get(getUserByUsername);
-router.route("/:id").get(getUserById).delete(deleteUser);
+router.route('/').get(getAllUsers).post(createUser('user'));
+router.route('/account/:username').get(getUserByUsername);
+router.route('/:id').get(getUserById).delete(deleteUser);
 
 export default router;

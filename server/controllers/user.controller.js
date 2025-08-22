@@ -308,3 +308,43 @@ export const unFollow = catchAsync(async (req, res) => {
 		success: true,
 	});
 });
+
+export const getFollowers = catchAsync(async (req, res) => {
+	if (!req.params.id) {
+		throw new APIError('BAD_REQUEST', {
+			message: 'User ID is required',
+		});
+	}
+
+	const followers = await db
+		.collection('users')
+		.find({
+			following: req.params.id,
+		})
+		.toArray();
+
+	res.status(200).json({
+		success: true,
+		data: followers,
+	});
+});
+
+export const getFollowing = catchAsync(async (req, res) => {
+	if (!req.params.id) {
+		throw new APIError('BAD_REQUEST', {
+			message: 'User ID is required',
+		});
+	}
+
+	const following = await db
+		.collection('users')
+		.find({
+			followers: req.params.id,
+		})
+		.toArray();
+
+	res.status(200).json({
+		success: true,
+		data: following,
+	});
+});

@@ -21,3 +21,12 @@ export interface AuthUser extends UserT {
 export interface User extends UserT {
   _id: string;
 }
+
+export interface Connection {
+  _id: string;
+  from_user: User;
+  to_user: User;
+  status: "pending" | "accepted";
+  createdAt: Date;
+  updatedAt: Date;
+}

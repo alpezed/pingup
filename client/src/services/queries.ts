@@ -7,6 +7,7 @@ import {
   posts as fetchUserPosts,
   users as fetchUsers,
   user as fetchUser,
+  connections as fetchConnections,
 } from "@/services/user";
 import type { APIResponse } from "@/types/api-response";
 import type { User } from "@/types/user.type";
@@ -60,19 +61,18 @@ export const userQueries = {
       select: (data: APIResponse<User[]>) =>
         data.data.map((user) => ({ ...user })),
     });
-
-    // return queryOptions({
-    //   queryKey: ["users", query],
-    //   queryFn: () => fetchUsers(query),
-    //   select: (data: APIResponse<User[]>) =>
-    //     data.data.map((user) => ({ ...user })),
-    // });
   },
   user: (userId: string, key: "username" | "id" = "id") =>
     queryOptions({
       queryKey: ["users", userId],
       queryFn: () => fetchUser(userId, key),
     }),
+  connections: (status?: "pending" | "accepted") => {
+    return queryOptions({
+      queryKey: ["connections", status],
+      queryFn: () => fetchConnections(status),
+    });
+  },
 };
 
 export const storyQueries = {

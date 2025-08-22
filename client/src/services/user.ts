@@ -1,7 +1,7 @@
 import type { Post } from "@/schema/post.schema";
 import type { Profile } from "@/schema/profile.schema";
 import type { APIResponse } from "@/types/api-response";
-import type { User } from "@/types/user.type";
+import type { Connection, User } from "@/types/user.type";
 
 export async function users(query?: any) {
   const result = await fetch(
@@ -72,5 +72,20 @@ export async function updateProfile(input: FormData) {
 
   const response = (await result.json()) as APIResponse<Profile>;
 
+  return response;
+}
+
+export async function connections(status?: "pending" | "accepted") {
+  const result = await fetch(
+    `${import.meta.env.VITE_API_URL}/connections${status ? `?status=${status}` : ""}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
+  const response = (await result.json()) as APIResponse<Connection[]>;
   return response;
 }
