@@ -89,3 +89,21 @@ export async function connections(status?: "pending" | "accepted") {
   const response = (await result.json()) as APIResponse<Connection[]>;
   return response;
 }
+
+export async function follow(
+  userId: string,
+  status: "followers" | "following",
+) {
+  const result = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/${userId}/${status}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
+  const response = (await result.json()) as APIResponse<User[]>;
+  return response;
+}

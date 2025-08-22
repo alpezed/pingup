@@ -2,32 +2,24 @@ import { createFileRoute } from "@tanstack/react-router";
 import { UserCheck, UserPlus, UserRoundPen, Users } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Connection } from "@/types/user.type";
-import { Connections } from "./-components/connection";
+import { Connections, FollowUser } from "./-components/connection";
 
 export const Route = createFileRoute("/_home/connections")({
   component: Connection,
 });
-
-function Followers() {
-  return <div>Followers Component</div>;
-}
-
-function Following() {
-  return <div>Following Component</div>;
-}
 
 const connectionsTabs = [
   {
     value: "follower",
     label: "Followers",
     icon: Users,
-    component: <Followers />,
+    component: <FollowUser type="followers" />,
   },
   {
     value: "following",
     label: "Following",
     icon: UserCheck,
-    component: <Following />,
+    component: <FollowUser type="following" />,
   },
   {
     value: "pending",
@@ -75,7 +67,7 @@ function ConnectionTabs() {
             value={tab.value}
             className="flex border-0 text-base font-normal cursor-pointer items-center transition gap-1 h-7 data-[state=active]:text-black active:text-black hover:text-black px-3 text-slate-500 !shadow-none"
           >
-            <Users size={16} />
+            <tab.icon size={16} />
             {tab.label}
           </TabsTrigger>
         ))}

@@ -8,6 +8,7 @@ import {
   users as fetchUsers,
   user as fetchUser,
   connections as fetchConnections,
+  follow as fetchFollow,
 } from "@/services/user";
 import type { APIResponse } from "@/types/api-response";
 import type { User } from "@/types/user.type";
@@ -71,6 +72,13 @@ export const userQueries = {
     return queryOptions({
       queryKey: ["connections", status],
       queryFn: () => fetchConnections(status),
+    });
+  },
+  follow: (userId?: string, status?: "followers" | "following") => {
+    return queryOptions({
+      queryKey: ["follow", userId, status],
+      queryFn: () => fetchFollow(userId!, status!),
+      enabled: !!userId,
     });
   },
 };
