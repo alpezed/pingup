@@ -30,3 +30,10 @@ export interface Connection {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface ConnectionCount {
+  pending: number;
+  accepted: number;
+  followers: number;
+  following: number;
+}

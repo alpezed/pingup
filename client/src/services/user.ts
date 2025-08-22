@@ -1,7 +1,7 @@
 import type { Post } from "@/schema/post.schema";
 import type { Profile } from "@/schema/profile.schema";
 import type { APIResponse } from "@/types/api-response";
-import type { Connection, User } from "@/types/user.type";
+import type { Connection, ConnectionCount, User } from "@/types/user.type";
 
 export async function users(query?: any) {
   const result = await fetch(
@@ -87,6 +87,21 @@ export async function connections(status?: "pending" | "accepted") {
     },
   );
   const response = (await result.json()) as APIResponse<Connection[]>;
+  return response;
+}
+
+export async function connectionsCount() {
+  const result = await fetch(
+    `${import.meta.env.VITE_API_URL}/connections/total`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
+  const response = (await result.json()) as APIResponse<ConnectionCount>;
   return response;
 }
 

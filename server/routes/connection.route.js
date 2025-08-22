@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/connection-counts', getConnectionCounts);
+router.get('/total', getConnectionCounts);
 
 router.route('/').get(getAllConnections).post(addConnection);
 

@@ -1,11 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { UserCheck, UserPlus, UserRoundPen, Users } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Connection } from "@/types/user.type";
+import type { Connection, ConnectionCount } from "@/types/user.type";
 import { Connections, FollowUser } from "./-components/connection";
+import { userQueries } from "@/services/queries";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_home/connections")({
   component: Connection,
+  loader: async ({ context }) =>
+    await context.queryClient.ensureQueryData(userQueries.connections()),
 });
 
 const connectionsTabs = [
@@ -36,6 +40,8 @@ const connectionsTabs = [
 ] as const;
 
 function Connection() {
+  const { data: counts } = useSuspenseQuery(userQueries.connectionsCount());
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-8">
@@ -46,8 +52,13 @@ function Connection() {
       </div>
       <div className="flex flex-wrap gap-6 mb-8">
         {connectionsTabs.map((tab) => (
-          <div className="shadow w-40 h-20 flex flex-col items-center justify-center text-base rounded-md border border-slate-200/60 bg-white/80">
-            <div className="text-black">2</div>
+          <div
+            key={tab.value}
+            className="shadow w-40 h-20 flex flex-col items-center justify-center text-base rounded-md border border-slate-200/60 bg-white/80"
+          >
+            <div className="text-black">
+              {counts[tab.value as keyof ConnectionCount] || 0}
+            </div>
             <div className="text-slate-600">{tab.label}</div>
           </div>
         ))}
@@ -59,7 +70,7 @@ function Connection() {
 
 function ConnectionTabs() {
   return (
-    <Tabs defaultValue={connectionsTabs.at(0)?.value} className="w-full gap-6">
+    <Tabs defaultValue={connectionsTabs[0]?.value} className="w-full gap-6">
       <TabsList className="shadow h-auto py-1 flex-wrap text-base rounded-sm border border-slate-200/60 bg-white/80">
         {connectionsTabs.map((tab) => (
           <TabsTrigger
