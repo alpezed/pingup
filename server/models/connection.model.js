@@ -23,8 +23,6 @@ const connectionSchema = new mongoose.Schema(
 	}
 );
 
-// connectionSchema.index({ to_user: 1 }, { unique: true });
-
 connectionSchema.statics.isConnected = async function (fromId, toId) {
 	const connection = await this.exists({
 		from_user: fromId,
